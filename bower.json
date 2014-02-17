@@ -1,0 +1,17 @@
+{
+  "name": "michael-paull-scratch",
+  "version": "0.0.1",
+  "main": "",
+  "dependencies": {
+    "lodash": "~2.4.x",
+    "modernizr": "~2.7.x",
+    "jquery": "~2.0.x",
+    "ember": "~1.2",
+    "ember-data": "~1.0.0-beta.4",
+    "ember-charts": "*",
+    "bootstrap": "~3.1.x",
+    "requirejs": "~2.1.x",
+    "d3": "~3.4.x"
+  },
+  "devDependencies": {}
+}
