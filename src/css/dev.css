@@ -1,0 +1,17 @@
+#dev-build-timestamp {
+	position: fixed;
+	right: 0px;
+	bottom: 0px;
+	z-index: 1000000;
+	height: 20px;
+	width: 200px;
+	background-color: #F7EDCA;
+	color: #333;
+	border: 2px solid #372415;
+	text-align: center;
+	font-family: helvetica, arial, sans-serif;
+	font-size: 12px;
+}
+#dev-build-timestamp:hover {
+	opacity: 0;
+}

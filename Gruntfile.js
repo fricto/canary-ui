@@ -72,8 +72,8 @@ module.exports = function (grunt) {
           process: function (content, path) {
           
             var timestamp = new Date();
-          
-            content = content.replace('<body>', '<body>\n				<!-- filepath: "'+path+'" | BUILT: ' + timestamp.toUTCString() + ' -->');
+            
+            content = content.replace( '</body>', '\n <!-- filepath: "'+path+'" | BUILT: ' + timestamp.toUTCString() + ' --> \n<div id="dev-build-timestamp">'+timestamp.toUTCString()+'</div>' );
             
             var slashes = 0, lastSlash = -1, prefix = '';
             while (path.indexOf('/', lastSlash+1) > -1) {
@@ -87,6 +87,8 @@ module.exports = function (grunt) {
                 slashes-=1;
               }
             }
+            
+            content = content.replace( '</head>', '<link rel="stylesheet" href="'+prefix+'css/dev.css">' );
             
             var tmpl = {
               backbone:       '<script src="'+prefix+'libs/json3/lib/json3.min.js"></script>'+
@@ -145,6 +147,9 @@ module.exports = function (grunt) {
       },
       styles: {
         files: [{src: ['src/css/styles.css'], dest: 'dist/css/styles.css'}]
+      },
+      dev: {
+        files: [{src: ['src/css/dev.css'], dest: 'dist/css/dev.css'}]
       }
     },
     
