@@ -20,7 +20,8 @@ module.exports = function (grunt) {
         options: {
           base: 'dist',
           // This will inject live reload script into the html
-          livereload: LIVERELOAD_PORT
+          livereload: LIVERELOAD_PORT,
+          open: 'dist/index.html'
         }
       }
     },
