@@ -1,6 +1,10 @@
-"use strict";
+(function() {
 
-window.Canary = Ember.Application.create();
+  'use strict';
 
-// Using fixture for development...
-Canary.ApplicationAdapter = DS.FixtureAdapter.extend();
+  window.Canary = Ember.Application.create();
+
+  // Using fixture for development...
+  Canary.ApplicationAdapter = DS.FixtureAdapter.extend();
+
+})();
