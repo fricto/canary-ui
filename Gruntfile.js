@@ -21,7 +21,7 @@ module.exports = function (grunt) {
           base: 'dist',
           // This will inject live reload script into the html
           livereload: LIVERELOAD_PORT,
-          open: 'dist/index.html'
+          open: 'http://localhost:8000/index.html'
         }
       }
     },
@@ -73,7 +73,7 @@ module.exports = function (grunt) {
           
             var timestamp = new Date();
             
-            content = content.replace( '</body>', '\n <!-- filepath: "'+path+'" | BUILT: ' + timestamp.toUTCString() + ' --> \n<div id="dev-build-timestamp">'+timestamp.toUTCString()+'</div>' );
+            content = content.replace( '</body>', '\n <script>console.info("Reloading: built '+timestamp.toUTCString()+'");</script> \n <!-- filepath: "'+path+'" | BUILT: ' + timestamp.toUTCString() + ' --> \n<div id="dev-build-timestamp">'+timestamp.toUTCString()+'</div>' );
             
             var slashes = 0, lastSlash = -1, prefix = '';
             while (path.indexOf('/', lastSlash+1) > -1) {

@@ -17,7 +17,6 @@
   Canary.MonitorsRoute = Ember.Route.extend({
     setupController: function(controller) {
       controller.set('model', this.store.find('monitor'));
-      controller.set('errorModel', this.store.find('monitor', {status: 'error'}));
     },
     renderTemplate: function() {
       this.render('monitors', {
