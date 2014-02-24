@@ -1,0 +1,87 @@
+            <h1 class="page-header">Monitors</h1>
+            <section class="row" id="reports">
+              <table class="table table-striped table-hover">
+                
+                <caption>Service Errors</caption>
+                
+                <thead>
+                  <tr><th>ID</th><th>Service Name</th><th>Last Logged At</th><th>Status</th><th>Action</th></tr>
+                </thead>
+                
+                <tfoot>
+                  <tr>
+                    <td colspan="5">Showing {{errorCount}} monitors.</td>
+                  </tr>
+                </tfoot>
+                
+                <tbody>
+{{#each errors}}
+{{partial "monitorTableRow"}}
+{{else}}
+                <tr>
+                  <td colspan="5">
+                    There are no monitors to display!
+                  </td>
+                </tr>
+{{/each}}
+                </tbody>
+
+              </table>
+
+              <table class="table table-striped table-hover">
+                
+                <caption>Service Warnings</caption>
+                
+                <thead>
+                  <tr><th>ID</th><th>Service Name</th><th>Last Logged At</th><th>Status</th><th>Action</th></tr>
+                </thead>
+                
+                <tfoot>
+                  <tr>
+                    <td colspan="5">Showing {{warnCount}} monitors.</td>
+                  </tr>
+                </tfoot>
+                
+                <tbody>
+{{#each warnings}}
+{{partial "monitorTableRow"}}
+{{else}}
+                <tr>
+                  <td colspan="5">
+                    There are no monitors to display!
+                  </td>
+                </tr>
+{{/each}}
+                </tbody>
+
+              </table>
+                            
+              <table class="table table-striped table-hover">
+                
+                <caption>Service Errors</caption>
+                
+                <thead>
+                  <tr><th>ID</th><th>Service Name</th><th>Last Logged At</th><th>Status</th><th>Action</th></tr>
+                </thead>
+                
+                <tfoot>
+                  <tr>
+                    <td colspan="5">Showing {{normalCount}} monitors.</td>
+                  </tr>
+                </tfoot>
+                
+                <tbody>
+{{#each normals}}
+{{partial "monitorTableRow"}}
+{{else}}
+                <tr>
+                  <td colspan="5">
+                    There are no monitors to display!
+                  </td>
+                </tr>
+{{/each}}
+                </tbody>
+
+              </table>
+
+            </section>

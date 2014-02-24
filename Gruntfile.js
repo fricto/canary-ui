@@ -50,18 +50,23 @@ module.exports = function (grunt) {
       },
       build: {
         files: {
-          'dist/js/main.js': ['src/js/application.js', 'src/js/router.js', 'src/js/controllers.js', 'src/js/models/*.js']
+          'dist/js/main.js': ['tmp/tmpl.js', 'src/js/application.js', 'src/js/router.js', 'src/js/controllers.js', 'src/js/models/*.js']
         }
       }
     },
     
-    // TKTKTK
-    staticHandlebars: {
+    emberTemplates: {
       options: {
-        
+        preprocess: function(source) {
+          return source.replace(/\s+/g, ' ');
+        },
+        templateBasePath: /src\/tmpl\//,
+        templateFileExtensions: /\.hbs/
       },
-      your_target_name: {
-      
+      'default': {
+        files: {
+          'tmp/tmpl.js': 'src/tmpl/**/*.hbs'
+        }
       }
     },
     
@@ -163,7 +168,7 @@ module.exports = function (grunt) {
     
   });
   
-  grunt.loadNpmTasks('grunt-static-handlebars');
+  grunt.loadNpmTasks('grunt-ember-templates');
   
   grunt.loadNpmTasks('grunt-contrib-clean');
   
@@ -177,9 +182,9 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-connect');
   grunt.loadNpmTasks('grunt-contrib-watch');
   
-  grunt.registerTask('default', ['bower:install', 'jshint', 'uglify',  'copy']);
+  grunt.registerTask('default', ['bower:install', 'emberTemplates', 'jshint', 'uglify',  'copy']);
   
-  grunt.registerTask('rebuild', ['clean', 'bower:clean', 'bower:install', 'jshint', 'uglify', 'copy']);
+  grunt.registerTask('rebuild', ['clean', 'bower:clean', 'bower:install', 'emberTemplates', 'jshint', 'uglify', 'copy']);
   
   // Use server instead of watch to watch with livereload...
   grunt.registerTask('server', ['connect', 'watch']);
