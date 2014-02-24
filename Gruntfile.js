@@ -1,12 +1,30 @@
 module.exports = function (grunt) {
   'use strict';
+  
+  // Default port
+  var LIVERELOAD_PORT = 35729;
+  
   grunt.initConfig({
+    
     pkg: grunt.file.readJSON('package.json'),
+    
     clean: ['dist'],
+    
     jshint: {
       files: ['gruntfile.js', 'src/js/**/*.js'],
       options: {jshintrc: true}
     },
+    
+    connect: {
+      server: {
+        options: {
+          base: 'dist',
+          // This will inject live reload script into the html
+          livereload: LIVERELOAD_PORT
+        }
+      }
+    },
+    
     bower: {
       install: {
         options: {
@@ -23,6 +41,7 @@ module.exports = function (grunt) {
         }
       }
     },
+    
     uglify: {
       options: {
         sourceMap: true,
@@ -34,6 +53,7 @@ module.exports = function (grunt) {
         }
       }
     },
+    
     // TKTKTK
     staticHandlebars: {
       options: {
@@ -43,6 +63,7 @@ module.exports = function (grunt) {
       
       }
     },
+    
     copy: {
       markup: {
         files: [{src: ['src/index.html'], dest: 'dist/index.html'}],
@@ -125,13 +146,15 @@ module.exports = function (grunt) {
         files: [{src: ['src/css/styles.css'], dest: 'dist/css/styles.css'}]
       }
     },
+    
     watch: {
       files: ['Gruntfile.js', 'src/**/*.*'],
       tasks: ['default'],
       options: {
-        livereload: true
+        livereload: LIVERELOAD_PORT
       }
     }
+    
   });
   
   grunt.loadNpmTasks('grunt-static-handlebars');
@@ -151,4 +174,8 @@ module.exports = function (grunt) {
   grunt.registerTask('default', ['bower:install', 'jshint', 'uglify',  'copy']);
   
   grunt.registerTask('rebuild', ['clean', 'bower:clean', 'bower:install', 'jshint', 'uglify', 'copy']);
+  
+  // Use server instead of watch to watch with livereload...
+  grunt.registerTask('server', ['connect', 'watch']);
+  
 };
