@@ -2,7 +2,7 @@
   'use strict';
   
   Canary.Record = DS.Model.extend({
-    monitor: DS.belongsTo('monitor'),
+    monitor: DS.belongsTo('monitor',{async:true}),
     loggedTime: DS.attr(),
     start: DS.attr(),
     end: DS.attr(),
@@ -10,7 +10,7 @@
     responseType: DS.attr()
   });
   
-  Canary.Record.FIXTURE = [
+  Canary.Record.FIXTURES = [
     {'id':1,'monitor':1,'loggedTime':'2014-02-17T20:28:39.169Z','start':'2014-02-17T20:28:39.091Z','end':'2014-02-17T20:28:39.046Z','duration':45,'responseType':'Beta'},
     {'id':2,'monitor':1,'loggedTime':'2014-02-17T20:28:39.169Z','start':'2014-02-17T20:28:39.151Z','end':'2014-02-17T20:28:39.071Z','duration':80,'responseType':'Delta'},
     {'id':3,'monitor':1,'loggedTime':'2014-02-17T20:28:39.170Z','start':'2014-02-17T20:28:39.072Z','end':'2014-02-17T20:28:39.039Z','duration':33},

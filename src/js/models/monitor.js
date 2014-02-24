@@ -2,7 +2,7 @@
   'use strict';
   
   Canary.Monitor = DS.Model.extend({
-    records: DS.hasMany('record'),
+    records: DS.hasMany('record',{async:true}),
     serviceName: DS.attr(),
     status: DS.attr(),
     lastLogged: DS.attr(),
@@ -20,7 +20,8 @@
     }.property('status'),
     isNotNormal: function() {
       return this.get('status') !== 'success';
-    }.property('status')
+    }.property('status'),
+    alerts: DS.hasMany('alert',{async:true})
   });
   
   Canary.Monitor.FIXTURES = [
@@ -46,13 +47,15 @@
       id:4,
       serviceName:'Service Delta',
       status:'warning',
-      lastLogged:'2014-02-17T20:11:31.789Z'
+      lastLogged:'2014-02-17T20:11:31.789Z',
+      alerts: [0,1]
     },
     {
       id:5,
       serviceName:'Service Epsilon',
       status:'error',
-      lastLogged:'2014-02-17T20:11:31.789Z'
+      lastLogged:'2014-02-17T20:11:31.789Z',
+      alerts: [2]
     },
     {
       id:6,
@@ -76,7 +79,8 @@
       id:9,
       serviceName:'Service Iota',
       status:'warning',
-      lastLogged:'2014-02-17T20:11:31.789Z'
+      lastLogged:'2014-02-17T20:11:31.789Z',
+      alerts: [3]
     },
     {
       id:10,
@@ -88,7 +92,8 @@
       id:11,
       serviceName:'Service Lambda',
       status:'error',
-      lastLogged:'2014-02-17T20:11:31.789Z'
+      lastLogged:'2014-02-17T20:11:31.789Z',
+      alerts: [4]
     },
     {
       id:12,

@@ -2,11 +2,11 @@
 	'use strict';
 	
 	Canary.Alert = DS.Model.extend({
-	  monitor: DS.attr(),
 	  title: DS.attr(),
 	  text: DS.attr(),
 	  timestamp: DS.attr(),
-	  active: DS.attr()
+	  active: DS.attr(),
+	  monitor: DS.belongsTo('monitor',{async:true})
 	});
 
 	Canary.Alert.FIXTURES = [

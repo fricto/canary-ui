@@ -84,3 +84,5 @@ body {
 	padding: 6px 12px;
 	margin: 7px;
 }
+
+#nav-alerts-link a {text-decoration: none;}

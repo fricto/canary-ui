@@ -1,0 +1,23 @@
+<section class="row" id="reports">
+	<div class="col-md-12">
+		<h1 class="page-header">{{serviceName}}</h1>
+		<dl>
+			<dt>Status</dt>
+			<dl>{{status}}</dl>
+			<dt>Last Logged</dt>
+			<dl>{{lastLogged}}</dl>
+		</dl>
+		
+		<ul>
+		{{#each alerts}}
+			<li>{{id}} - {{title}}</li>
+		{{/each}}
+		</ul>
+		
+		<ul>
+		{{#each records}}
+			<li>{{id}} - {{duration}} - {{responseType}}</li>
+		{{/each}}
+		</ul>
+		
+</section>

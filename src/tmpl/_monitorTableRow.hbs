@@ -1,5 +1,5 @@
 <tr {{bind-attr class="isError:danger isWarning:warning isNormal:success"}}>
-	<td>{{id}}</td>
+	<td>{{#link-to 'monitor' id}} {{id}} {{/link-to}}</td>
 	<td>{{serviceName}}</td>
 	<td>{{lastLogged}}</td>
 	<td>{{status}}</td>
