@@ -15,11 +15,13 @@
 		{{/each}}
 		</ul>
 {{/if}}
-		<h3>records</h3>
-		<ul>
-		{{#each records}}
-			<li>{{id}} - {{duration}} - {{responseType}}</li>
-		{{/each}}
-		</ul>
+
+<hr>
+
+{{outlet chart}}
+
+<hr>
+		
+{{#link-to "monitor.records"}}View records{{/link-to}}
 		
 </section>

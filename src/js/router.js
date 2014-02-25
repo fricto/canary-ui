@@ -3,16 +3,17 @@
   'use strict';
 
   Canary.Router.map(function() {
-    this.resource('monitors');
-    this.resource('monitor', { path: '/monitor/:monitor_id' });
+    
+    this.resource( 'monitors', { path: '/' });
+    
+    this.resource('monitor', { path: '/monitor/:monitor_id' }, function() {
+      this.route('records');
+    });
+    
     this.resource('alerts');
+    
   });
 
-  Canary.IndexRoute = Ember.Route.extend({
-    redirect: function() {
-      this.transitionTo('monitors');
-    }
-  });
 
 
   Canary.MonitorsRoute = Ember.Route.extend({
@@ -20,38 +21,59 @@
       controller.set('model', this.store.find('monitor'));
     },
     renderTemplate: function() {
+      console.log("Rendering 'Canary.MonitorsRoute'.");
       this.render('monitors', {
         outlet: 'main'
       });
       this.render('alertBox', {
         outlet: 'alerts',
-        controller: this.generateController('alerts').set('model', this.store.find('alert'))
+        controller: this.controllerFor('alerts').set('model', this.store.find('alert', {active: true}))
       });
     }
   });
+
+
 
   Canary.MonitorRoute = Ember.Route.extend({
     model: function(params) {
-      var monitor = this.store.find('monitor', params.monitor_id);
-      return monitor;
+      return this.store.find('monitor', params.monitor_id);
     },
     renderTemplate: function() {
-      this.render();
+      console.log("Rendering 'Canary.MonitorRoute'.");
+      this.render('monitor', {
+        outlet: 'main'
+      });
       this.render('alertBox', {
         outlet: 'alerts',
-        controller: this.generateController('alerts').set('model', this.store.find('alert'))
+        controller: this.controllerFor('alerts').set('model', this.store.find('alert', {active: true}))
       });
     }
   });
 
-  Canary.AlertsRoute = Ember.Route.extend({
+
+
+  Canary.MonitorRecordsRoute = Ember.Route.extend({
     setupController: function(controller) {
-      controller.set('model').set('model', this.store.find('alert'));
+      var records = this.controllerFor('monitor').get('records');
+      console.log(records.get('length'));
+      controller.set('model', records);
     },
     renderTemplate: function() {
-      this.controllerFor('alerts').forEach(function(item) {
-        item.send('archive');
+      console.log("Rendering 'Canary.MonitorRecordsRoute'.");
+      this.render('chart', {
+        outlet: 'chart'
       });
+    }
+  });
+  
+
+
+  Canary.AlertsRoute = Ember.Route.extend({
+    setupController: function(controller) {
+      controller.set('model', this.store.find('alert', {active: true}));
+    },
+    renderTemplate: function() {
+      console.log("Rendering 'Canary.AlertsRoute'.");
       this.render('alerts', {
         outlet: 'main'
       });

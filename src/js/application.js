@@ -18,8 +18,13 @@
     }
   });
 
-  window.Canary = Ember.Application.create();
+  window.Canary = Ember.Application.create({LOG_TRANSITIONS: true});
   
-  Canary.ApplicationAdapter = DS.FixtureAdapter.extend();
+  //Canary.ApplicationAdapter = DS.FixtureAdapter.extend();
+  
+  Canary.Store = DS.Store.extend({
+    revision:  12,
+    adapter: DS.FixtureAdapter
+  });
 
 })();

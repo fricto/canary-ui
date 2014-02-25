@@ -14,7 +14,7 @@
     normalCount: function() {
       return this.filterBy('isNormal', true).get('length');
     }.property('@each.isNormal'),
-    hasAlerts: function () {
+    haveAlerts: function () {
       return this.filterBy('hasAlert', true).get('length') > 0;
     }.property('@each'),
     errors: function() {
@@ -25,15 +25,29 @@
     }.property('@each.isWarning'),
     normals: function() {
       return this.filterBy('isNormal', true);
-    }.property('@each.isNormal'),
-    itemController: 'monitor'
+    }.property('@each.isNormal')
   });
   
-  Canary.MonitorController = Ember.ObjectController.extend({
-    hasAlert: function() {
-      console.log(this.get('alerts').get('length'));
-      return this.get('alerts').get('length') > 0;
-    }.property('Canary.AlertsController')});
+  Canary.MonitorRecordsController = Ember.ArrayController.extend({
+    needs: ['monitor'],
+    monitor: Ember.computed.alias("controllers.monitor"),
+    itemController: 'record'/*,
+    lineData: function() {
+      var graphData = [];
+      this.forEach(function(record) {
+        graphData.push({
+          label: record.responseType,
+          time: record.loggedTime,
+          value: record.duration
+        });
+      });
+      console.log(graphData.length);
+      console.log(graphData);
+      return graphData;
+    }.property('@each')*/
+  });
+  
+  Canary.RecordController = Ember.ObjectController.extend();
   
   Canary.AlertsController = Ember.ArrayController.extend({
     total: function() {
