@@ -75,12 +75,12 @@
 	"white"         : false,
 
 	"globals": {
-      "Backbone": true,
       "_": true,
       "module": true,
       "Ember": true,
       "Canary": true,
-      "DS": true
+      "DS": true,
+      "Chart": true
 	}
 
 }

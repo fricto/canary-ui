@@ -18,7 +18,7 @@
     }
   });
 
-  window.Canary = Ember.Application.create({LOG_TRANSITIONS: true});
+  window.Canary = Ember.Application.create(/* {LOG_TRANSITIONS: true} */);
   
   //Canary.ApplicationAdapter = DS.FixtureAdapter.extend();
   

@@ -31,21 +31,24 @@
   Canary.MonitorRecordsController = Ember.ArrayController.extend({
     needs: ['monitor'],
     monitor: Ember.computed.alias("controllers.monitor"),
-    itemController: 'record'/*,
-    lineData: function() {
+    itemController: 'record',
+    
+    graphData: function() {
       var graphData = [];
       this.forEach(function(record) {
         graphData.push({
-          label: record.responseType,
-          time: record.loggedTime,
-          value: record.duration
+          label: record.get('responseType'),
+          time: record.get('loggedTime'),
+          value: record.get('duration')
         });
       });
-      console.log(graphData.length);
-      console.log(graphData);
+      console.log('graphData defined', graphData);
       return graphData;
-    }.property('@each')*/
+    }.property('@each.records')
+    
   });
+  
+  Canary.MonitorController = Ember.ObjectController.extend();
   
   Canary.RecordController = Ember.ObjectController.extend();
   
