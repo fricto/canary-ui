@@ -7,13 +7,15 @@
 			<dt>Last Logged</dt>
 			<dl>{{lastLogged}}</dl>
 		</dl>
-		
+{{#if alerts}}
+		<h3>alerts</h3>
 		<ul>
 		{{#each alerts}}
 			<li>{{id}} - {{title}}</li>
 		{{/each}}
 		</ul>
-		
+{{/if}}
+		<h3>records</h3>
 		<ul>
 		{{#each records}}
 			<li>{{id}} - {{duration}} - {{responseType}}</li>

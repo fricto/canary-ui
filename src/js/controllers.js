@@ -15,7 +15,7 @@
       return this.filterBy('isNormal', true).get('length');
     }.property('@each.isNormal'),
     hasAlerts: function () {
-      return this.get('length') > 0;
+      return this.filterBy('hasAlert', true).get('length') > 0;
     }.property('@each'),
     errors: function() {
       return this.filterBy('isError', true);
@@ -29,7 +29,11 @@
     itemController: 'monitor'
   });
   
-  Canary.MonitorController = Ember.ObjectController.extend({});
+  Canary.MonitorController = Ember.ObjectController.extend({
+    hasAlert: function() {
+      console.log(this.get('alerts').get('length'));
+      return this.get('alerts').get('length') > 0;
+    }.property('Canary.AlertsController')});
   
   Canary.AlertsController = Ember.ArrayController.extend({
     total: function() {
