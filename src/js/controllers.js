@@ -38,23 +38,18 @@
       
     }.property('@each'),    
     graphData: function() {
-      var chartObject = {labels: [], datasets: []};
+      var chartDataSetOptions = {
+        fillColor : "rgba(151,187,205,0.5)",
+        strokeColor : "rgba(151,187,205,1)",
+        pointColor : "rgba(151,187,205,1)",
+        pointStrokeColor : "#fff",
+        data: []
+      };
+      var chartObject = {labels: [], datasets: [chartDataSetOptions]};
       
       this.forEach(function(record) {
         chartObject.labels.push(record.get('loggedTime'));
-        chartObject.datasets.push({
-          meta: record.get('responseType'),
-          data: record.get('duration'),
-          
-          // ===============
-          // ChartJS Options
-          // ===============
-          fillColor : "rgba(220,220,220,0.5)",
-          strokeColor : "rgba(220,220,220,1)",
-          pointColor : "rgba(220,220,220,1)",
-          pointStrokeColor : "#fff"
-          // ===============
-        });
+        chartObject.datasets[0].data.push(record.get('duration'));
       });
 
       return chartObject;

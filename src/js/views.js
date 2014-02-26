@@ -13,25 +13,13 @@
     
     drawChart: function() {
       
-      var chartContext = document.getElementById("record-chart").getContext("2d");
+      var $chartContainer = this.$("#record-chart");
+      $chartContainer.attr('width', $chartContainer.parent().width());
+      $chartContainer.attr('height', $chartContainer.parent().width() / 1.6);
+      
+      var chartContext = $chartContainer.get(0).getContext("2d");
 
       var chartData = this.get('controller.graphData');
-      
-      /*
-var chartData = {labels: ['porter', 'stout', 'dunkel'], datasets: [{
-        data: 21,
-                  fillColor : "rgba(220,220,220,0.5)",
-          strokeColor : "rgba(220,220,220,1)",
-          pointColor : "rgba(220,220,220,1)",
-          pointStrokeColor : "#fff"
-      },{
-        data: 35,
-                  fillColor : "rgba(220,220,220,0.5)",
-          strokeColor : "rgba(220,220,220,1)",
-          pointColor : "rgba(220,220,220,1)",
-          pointStrokeColor : "#fff"
-      }]};
-*/
       
       console.log(chartData);
       
