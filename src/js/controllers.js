@@ -28,29 +28,44 @@
     }.property('@each.isNormal')
   });
   
-  Canary.MonitorRecordsController = Ember.ArrayController.extend({
-    needs: ['monitor'],
-    monitor: Ember.computed.alias("controllers.monitor"),
-    itemController: 'record',
-    
-    graphData: function() {
-      var graphData = [];
-      this.forEach(function(record) {
-        graphData.push({
-          label: record.get('responseType'),
-          time: record.get('loggedTime'),
-          value: record.get('duration')
-        });
-      });
-      console.log('graphData defined', graphData);
-      return graphData;
-    }.property('@each.records')
-    
-  });
-  
   Canary.MonitorController = Ember.ObjectController.extend();
   
+  Canary.RecordsController = Ember.ArrayController.extend({
+    total: function() {
+      return this.get('length');
+    }.property('@each'),
+    graphLabels: function() {
+      
+    }.property('@each'),    
+    graphData: function() {
+      var chartObject = {labels: [], datasets: []};
+      
+      this.forEach(function(record) {
+        chartObject.labels.push(record.get('loggedTime'));
+        chartObject.datasets.push({
+          meta: record.get('responseType'),
+          data: record.get('duration'),
+          
+          // ===============
+          // ChartJS Options
+          // ===============
+          fillColor : "rgba(220,220,220,0.5)",
+          strokeColor : "rgba(220,220,220,1)",
+          pointColor : "rgba(220,220,220,1)",
+          pointStrokeColor : "#fff"
+          // ===============
+        });
+      });
+
+      return chartObject;
+    }.property('@each'),
+    needs: 'monitor',
+    monitor: Ember.computed.alias("controllers.needs"),
+    itemController: 'record'
+  });
+  
   Canary.RecordController = Ember.ObjectController.extend();
+  
   
   Canary.AlertsController = Ember.ArrayController.extend({
     total: function() {

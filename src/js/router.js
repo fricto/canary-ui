@@ -7,7 +7,7 @@
     this.resource( 'monitors', { path: '/' });
     
     this.resource('monitor', { path: '/monitor/:monitor_id' }, function() {
-      this.route('records');
+      this.resource('records', { path: '/records' });
     });
     
     this.resource('alerts');
@@ -18,7 +18,7 @@
 
   Canary.MonitorsRoute = Ember.Route.extend({
     setupController: function(controller) {
-      controller.set('model', this.store.find('monitor'));
+      controller.set('content', this.store.find('monitor'));
     },
     renderTemplate: function() {
       this.render('monitors', {
@@ -50,22 +50,19 @@
 
 
 
-  Canary.MonitorRecordsRoute = Ember.Route.extend({
+  Canary.RecordsRoute = Ember.Route.extend({
     setupController: function(controller) {
-      controller.set('model', this.controllerFor('monitor').get('records'));
-    },
-    renderTemplate: function() {
-      this.render('records', {
-        outlet: 'records'
-      });
+      controller.set('content', this.controllerFor('monitor').get('records'));
+      controller.get('graphData');
+      controller.get('graphLabels');
     }
   });
-  
+
 
 
   Canary.AlertsRoute = Ember.Route.extend({
     setupController: function(controller) {
-      controller.set('model', this.store.find('alert', {active: true}));
+      controller.set('content', this.store.find('alert', {active: true}));
     },
     renderTemplate: function() {
       this.render('alerts', {
