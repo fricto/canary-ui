@@ -1,11 +1,64 @@
-<div class="col-md-12">
-	{{view Canary.ChartView}}
-</div>
-<div class="col-md-6">
-	<h2>Records</h2>
-	<ul>
-		{{#each}}
-		<li>{{id}} - {{duration}} {{#if responseType}} - {{responseType}} {{/if}}</li>
+	<div class="row">
+
+		<div class="col-md-8 col-md-push-4">
+			{{view Canary.ChartView}}
+		</div>
+			
+		{{#with monitor}}
+		<div class="col-md-4 col-md-pull-8">		
+		
+		<h2>Monitor Status</h2>
+		
+		{{#if alerts}}
+		{{#each alerts}}
+			<div class="alert alert-warning">{{#link-to "alert" id class="alert-link"}}{{title}}{{/link-to}}</div>
 		{{/each}}
-	</ul>
-</div>
+		{{/if}}
+		
+		<dl class="dl-horizontal">
+			<dt>Current Status</dt>
+			<dd>{{status}}</dd>
+			<dt>Last Logged</dt>
+			<dd>{{lastLoggedTime}}</dd>
+			<dt>Latest Duration</dt>
+			<dd>{{lastLoggedDuration}}</dd>
+			<dt>Response Type</dt>
+			<dd>{{lastResponseType}}</dd>
+			<dt>Records Stored</dt>
+			<dd>{{recordCount}}</dd>
+			<dt>Average Duration</dt>
+			<dd>{{average}}</dd>
+			<dt>Max Duration</dt>
+			<dd>{{maxDuration}}</dd>
+			<dt>Min Duration</dt>
+			<dd>{{minDuration}}</dd>
+		</dd>
+		</div>
+		{{/with}}
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+			<div class="table-responsive">
+			  <table class="table table-condensed table-bordered">
+					<tbody>
+					<tr>
+						<th>Timestamp</th>
+						<th>Request</th>
+						<th>Reponse</th>
+						<th>Duration (ms)</th>
+						<th>Response Type</th>
+					</tr>				<h2>Records</h2>	
+					{{#each}}
+					<tr>
+						<td>{{loggedTime}}</td>
+						<td>{{start}}</td>
+						<td>{{end}}</td>
+						<td>{{duration}}</td>
+						<td>{{responseType}}</td>
+					</tr>
+					{{/each}}
+					</tbody>
+			  </table>
+			</div>
+		</div>
+	</div>

@@ -17,6 +17,8 @@
     
     this.resource('alerts');
     
+    this.resource('alert', { path: '/alert/:alert_id' });
+    
     this.resource('settings');
     
     this.resource('help');

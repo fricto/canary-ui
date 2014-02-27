@@ -5,9 +5,7 @@
     total: function() {
       return this.get('length');
     }.property('@each'),
-    graphLabels: function() {
-      
-    }.property('@each'),    
+    
     graphData: function() {
       var chartDataSetOptions = {
         fillColor : "rgba(151,187,205,0.5)",
