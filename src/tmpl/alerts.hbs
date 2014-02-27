@@ -1,21 +1,12 @@
 <section id="reports">
-<h1 class="page-header">Alerts</h1>
-
-{{#each}}
-
-{{#link-to "monitor" monitor.id}}
 	<div class="row">
 		<div class="col-md-12">
-			<h4>{{title}}</h4>
-			<p>{{text}}</p>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-md-6">{{monitor.serviceName}}</div>
-		<div class="col-md-6">{{timestamp}}</div>
-	</div>
-{{/link-to}}
-
+			<h1 class="page-header">Alerts</h1>
+	
+{{#each}}
+{{partial "alertFull"}}
 {{/each}}
 
+		</div>
+	</div>
 </section>

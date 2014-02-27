@@ -11,7 +11,7 @@
 		
 		{{#if alerts}}
 		{{#each alerts}}
-			<div class="alert alert-warning">{{#link-to "alert" id class="alert-link"}}{{title}}{{/link-to}}</div>
+{{partial "alertShort"}}
 		{{/each}}
 		{{/if}}
 		
