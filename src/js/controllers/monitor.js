@@ -31,12 +31,48 @@
         return  item;
       }
     }),
+    
     lastLoggedTime: function() {
       return this.get('lastLogged.loggedTime');
     }.property('lastLogged'),
+    
     lastResponseType: function() {
       return this.getWithDefault('lastLogged.responseType', '--');
     }.property('lastLogged'),
+    
+    lastLoggedDuration: function() {
+      return this.get('lastLogged.duration');
+    }.property('lastLogged'),
+    
+    durations: Ember.arrayComputed('records', {
+      addedItem: function(array, item, changeMeta) {
+        array.insertAt(changeMeta.index, item.get('duration'));
+        return array;
+      },
+      removedItem: function(array, item, changeMeta) {
+        array.removeAt(changeMeta.index, 1);
+        return array;
+      }
+    }),
+    
+    recordCount: Ember.reduceComputed('records', {
+      initialValue: 0,
+    
+      addedItem: function (accumulatedValue) {
+        accumulatedValue++;
+        return  accumulatedValue;
+      },
+    
+      removedItem: function (accumulatedValue) {
+        accumulatedValue--;
+        return  accumulatedValue;
+      }
+    }),
+    
+    minDuration: Ember.computed.min('durations'),
+    
+    maxDuration: Ember.computed.max('durations'),
+    
     average: Ember.reduceComputed('records', {
       initialValue: 0,
     

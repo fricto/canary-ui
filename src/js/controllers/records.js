@@ -26,8 +26,7 @@
       return chartObject;
     }.property('@each'),
     needs: 'monitor',
-    monitor: Ember.computed.alias("controllers.needs"),
-    itemController: 'record'
+    monitor: Ember.computed.alias("controllers.monitor")
   });
 
 })();

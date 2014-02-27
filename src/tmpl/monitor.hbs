@@ -1,35 +1,44 @@
-<section class="row" id="reports">
-	<div class="col-md-12">
-		<h1 class="page-header">{{serviceName}}</h1>
-		<dl>
-			<dt>Status</dt>
-			<dl>{{status}}</dl>
-			<dt>Last Logged</dt>
-			<dl>{{lastLoggedTime}}</dl>
-		</dl>
-{{#if alerts}}
-		<h3>alerts</h3>
-		<ul>
-		{{#each alerts}}
-			<li>{{id}} - {{title}}</li>
-		{{/each}}
-		</ul>
-{{/if}}
+<section id="reports">
+	<div class="row">
+		<div class="col-md-12">
+			<h1 class="page-header">{{serviceName}}</h1>
+			
+						{{#if alerts}}
+			<h2>alerts</h2>
+			<ul>
+			{{#each alerts}}
+				<li>{{id}} - {{title}}</li>
+			{{/each}}
+			</ul>
+			{{/if}}
+			
+		</div>
 
-<hr>
+		{{render "records" records}}
 
-<div class="row">
-	<div class="col-md-12">
+		<div class="col-md-6">		
+			<h1 class="page-header">{{serviceName}}</h1>
+			<h2>Monitor Status</h2>
+			<dl>
+				<dt>Status</dt>
+				<dl>{{status}}</dl>
+				<dt>Last Logged</dt>
+				<dl>{{lastLoggedTime}}</dl>
+				<dt>Latest Response Duration</dt>
+				<dl>{{lastLoggedDuration}}</dl>
+				<dt>Last Response Type</dt>
+				<dl>{{lastResponseType}}</dl>
+				<dt>Records Stored</dt>
+				<dl>{{recordCount}}</dl>
+				<dt>Average Response Duration</dt>
+				<dl>{{average}}</dl>
+				<dt>Minimum Response Duration</dt>
+				<dl>{{minDuration}}</dl>
+				<dt>Maximum Response Duration</dt>
+				<dl>{{maxDuration}}</dl>
+			</dl>
+		</div>
 		
 	</div>
-</div>
-
-<hr>
-		
-
-{{render "records" records}}
-
-<hr>
 		
 </section>
-            <h1>AVERAGE: {{average}}</h1>

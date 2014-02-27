@@ -9,7 +9,9 @@
     this.resource( 'monitors', { path: '/monitors' });
     
     this.resource('monitor', { path: '/monitor/:monitor_id' }, function() {
-      this.resource('records', { path: '/records' });
+      this.resource('records', { path: '/records' }, function () {
+        this.resource('chart', { path: '/chart' });
+      });
       this.route('reset');
     });
     
