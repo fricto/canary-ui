@@ -1,7 +1,12 @@
-<tr {{bind-attr class="isError:danger isWarning:warning isNormal:success"}}>
-	<td>{{#link-to 'monitor' id}} {{id}} {{/link-to}}</td>
+<tr {{action "doStuff" id on="click"}} {{bind-attr class="isError:danger isWarning:warning isNormal:success"}}>
+	<td>{{id}}</td>
 	<td>{{serviceName}}</td>
-	<td>{{lastLogged}}</td>
+	<td>{{lastLoggedTime}}</td>
 	<td>{{status}}</td>
-	<td>BUTTONS TKTKTK</td>
+{{#if isError}}
+	<td>{{#link-to 'monitor.reset' id class="btn btn-default btn-xs"}}reset{{/link-to}}</td>
+{{else}}
+	<td>{{average}}</td>
+	<td>{{lastResponseType}}</td>
+{{/if}}
 </tr>

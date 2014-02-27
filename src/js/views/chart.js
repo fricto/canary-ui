@@ -1,4 +1,4 @@
-/* jshint ignore:start */(function() {
+(function() {
 
   'use strict';
 
@@ -10,7 +10,9 @@
       this.get('controller.graphData');
       this.get('controller.graphLabels');
     },
-    
+    didInsertElement: function() {
+	    this.drawChart();
+    },
     drawChart: function() {
       
       var $chartContainer = this.$("#record-chart");
@@ -20,8 +22,6 @@
       var chartContext = $chartContainer.get(0).getContext("2d");
 
       var chartData = this.get('controller.graphData');
-      
-      console.log(chartData);
       
       var chartOptions = {
         
@@ -113,4 +113,4 @@
     
   });
 
-})();/* jshint ignore:end */
+})();

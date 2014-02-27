@@ -4,7 +4,7 @@
   Canary.Monitor = DS.Model.extend({
     serviceName: DS.attr(),
     status: DS.attr(),
-    lastLogged: DS.attr(),
+    /* lastLogged: DS.attr(), */
     
     isError: function() {
       return this.get('status') === 'error';

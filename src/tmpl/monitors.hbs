@@ -5,7 +5,7 @@
                 <caption>Service Errors</caption>
                 
                 <thead>
-                  <tr><th>ID</th><th>Service Name</th><th>Last Logged At</th><th>Status</th><th>Action</th></tr>
+                  <tr><th>ID</th><th>Service Name</th><th>Last Logged At</th><th>Status</th><th>Reset</th></tr>
                 </thead>
                 
                 <tfoot>
@@ -15,15 +15,7 @@
                 </tfoot>
                 
                 <tbody>
-{{#each errors}}
-{{partial "monitorTableRow"}}
-{{else}}
-                <tr>
-                  <td colspan="5">
-                    There are no monitors to display!
-                  </td>
-                </tr>
-{{/each}}
+{{view Canary.ErrorMonitorTableRowView}}
                 </tbody>
 
               </table>
@@ -33,25 +25,17 @@
                 <caption>Service Warnings</caption>
                 
                 <thead>
-                  <tr><th>ID</th><th>Service Name</th><th>Last Logged At</th><th>Status</th><th>Action</th></tr>
+                  <tr><th>ID</th><th>Service Name</th><th>Last Logged At</th><th>Status</th><th>Average</th><th>Response</th></tr>
                 </thead>
                 
                 <tfoot>
                   <tr>
-                    <td colspan="5">Showing {{warnCount}} monitors.</td>
+                    <td colspan="6">Showing {{warnCount}} monitors.</td>
                   </tr>
                 </tfoot>
                 
                 <tbody>
-{{#each warnings}}
-{{partial "monitorTableRow"}}
-{{else}}
-                <tr>
-                  <td colspan="5">
-                    There are no monitors to display!
-                  </td>
-                </tr>
-{{/each}}
+{{view Canary.WarningMonitorTableRowView}}
                 </tbody>
 
               </table>
@@ -61,25 +45,17 @@
                 <caption>Service Errors</caption>
                 
                 <thead>
-                  <tr><th>ID</th><th>Service Name</th><th>Last Logged At</th><th>Status</th><th>Action</th></tr>
+                  <tr><th>ID</th><th>Service Name</th><th>Last Logged At</th><th>Status</th><th>Average</th><th>Response</th></tr>
                 </thead>
                 
                 <tfoot>
                   <tr>
-                    <td colspan="5">Showing {{normalCount}} monitors.</td>
+                    <td colspan="6">Showing {{normalCount}} monitors.</td>
                   </tr>
                 </tfoot>
                 
                 <tbody>
-{{#each normals}}
-{{partial "monitorTableRow"}}
-{{else}}
-                <tr>
-                  <td colspan="5">
-                    There are no monitors to display!
-                  </td>
-                </tr>
-{{/each}}
+{{view Canary.NormalMonitorTableRowView}}
                 </tbody>
 
               </table>

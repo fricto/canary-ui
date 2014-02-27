@@ -4,13 +4,20 @@
 
   Canary.Router.map(function() {
     
-    this.resource( 'monitors', { path: '/' });
+    this.resource( 'dashboard', { path: '/' });
+    
+    this.resource( 'monitors', { path: '/monitors' });
     
     this.resource('monitor', { path: '/monitor/:monitor_id' }, function() {
       this.resource('records', { path: '/records' });
+      this.route('reset');
     });
     
     this.resource('alerts');
+    
+    this.resource('settings');
+    
+    this.resource('help');
     
   });
 
