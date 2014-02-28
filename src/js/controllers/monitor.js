@@ -92,7 +92,31 @@
         instanceMeta.count--;
         return Math.floor(instanceMeta.total / instanceMeta.count);
       }
-    })    
+    }),
+    
+    hasActiveAlerts: Ember.reduceComputed('alerts', {
+      initialValue: false,
+    
+      initialize: function (array, changeMeta, instanceMeta) {
+        instanceMeta.activeAlerts = 0;
+      },
+    
+      addedItem: function (accumulatedValue, item, changeMeta, instanceMeta) {
+        if ( item.get( 'active' ) === true ) {
+          instanceMeta.activeAlerts++;
+          accumulatedValue = true;
+        }
+        return accumulatedValue;
+      },
+    
+      removedItem: function (accumulatedValue, item, changeMeta, instanceMeta) {
+        if ( item.get( 'active' ) === false ) {
+          instanceMeta.activeAlerts--;
+        }
+        return instanceMeta.activeAlerts > 0;
+      }
+    })
+    
   });
 
 })();
