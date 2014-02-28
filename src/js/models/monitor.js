@@ -1,35 +1,35 @@
 (function(){
   'use strict';
-  
+
   Canary.Monitor = DS.Model.extend({
     serviceName: DS.attr(),
     status: DS.attr(),
     /* lastLogged: DS.attr(), */
-    
+
     isError: function() {
       return this.get('status') === 'error';
     }.property('status'),
-    
+
     isNotError: function() {
       return this.get('status') !== 'error';
     }.property('status'),
-    
+
     isWarning: function() {
       return this.get('status') === 'warning';
     }.property('status'),
-    
+
     isNormal: function() {
       return this.get('status') === 'success';
     }.property('status'),
-    
+
     isNotNormal: function() {
       return this.get('status') !== 'success';
     }.property('status'),
-    
+
     records: DS.hasMany('record',{async:true}),
     alerts: DS.hasMany('alert',{async:true})
   });
-  
+
   Canary.Monitor.FIXTURES = [
     {
 			id: 1,

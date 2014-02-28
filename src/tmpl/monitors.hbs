@@ -1,19 +1,19 @@
             <section class="row" id="reports">
               <h1 class="page-header">Monitors</h1>
               <table class="table table-striped table-hover">
-                
+
                 <caption><h2 class="text-left">Service Errors</h2></caption>
-                
+
                 <thead>
                   <tr><th>ID</th><th>Service Name</th><th>Last Logged At</th><th>Status</th><th>Reset</th></tr>
                 </thead>
-                
+
                 <tfoot>
                   <tr>
                     <td colspan="5" class="text-right">Showing {{errorCount}} monitors.</td>
                   </tr>
                 </tfoot>
-                
+
                 <tbody>
 {{view Canary.ErrorMonitorTableRowView}}
                 </tbody>
@@ -21,39 +21,39 @@
               </table>
 
               <table class="table table-striped table-hover">
-                
+
                 <caption><h2 class="text-left">Service Warnings</h2<</caption>
-                
+
                 <thead>
                   <tr><th>ID</th><th>Service Name</th><th>Last Logged At</th><th>Status</th><th>Average</th><th>Response</th></tr>
                 </thead>
-                
+
                 <tfoot>
                   <tr>
                     <td colspan="6" class="text-right">Showing {{warnCount}} monitors.</td>
                   </tr>
                 </tfoot>
-                
+
                 <tbody>
 {{view Canary.WarningMonitorTableRowView}}
                 </tbody>
 
               </table>
-                            
+
               <table class="table table-striped table-hover">
-                
+
                 <caption><h2 class="text-left">Service Errors</h2class="text-left"></caption>
-                
+
                 <thead>
                   <tr><th>ID</th><th>Service Name</th><th>Last Logged At</th><th>Status</th><th>Average</th><th>Response</th></tr>
                 </thead>
-                
+
                 <tfoot>
                   <tr>
                     <td colspan="6" class="text-right">Showing {{normalCount}} monitors.</td>
                   </tr>
                 </tfoot>
-                
+
                 <tbody>
 {{view Canary.NormalMonitorTableRowView}}
                 </tbody>

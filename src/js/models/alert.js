@@ -1,6 +1,6 @@
 (function(){
 	'use strict';
-	
+
 	Canary.Alert = DS.Model.extend({
 	  title: DS.attr(),
 	  text: DS.attr(),

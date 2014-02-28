@@ -1,20 +1,20 @@
 module.exports = function (grunt) {
   'use strict';
-  
+
   // Default port
   var LIVERELOAD_PORT = 35729;
-  
+
   grunt.initConfig({
-    
+
     pkg: grunt.file.readJSON('package.json'),
-    
+
     clean: ['dist'],
-    
+
     jshint: {
       files: ['gruntfile.js', 'src/js/**/*.js'],
       options: {jshintrc: true}
     },
-    
+
     connect: {
       server: {
         options: {
@@ -25,7 +25,7 @@ module.exports = function (grunt) {
         }
       }
     },
-    
+
     bower: {
       install: {
         options: {
@@ -42,7 +42,7 @@ module.exports = function (grunt) {
         }
       }
     },
-    
+
     uglify: {
       options: {
         sourceMap: true,
@@ -54,7 +54,7 @@ module.exports = function (grunt) {
         }
       }
     },
-    
+
     emberTemplates: {
       options: {
         preprocess: function(source) {
@@ -69,17 +69,17 @@ module.exports = function (grunt) {
         }
       }
     },
-    
+
     copy: {
       markup: {
         files: [{src: ['src/index.html'], dest: 'dist/index.html'}],
         options: {
           process: function (content, path) {
-          
+
             var timestamp = new Date();
-            
+
             content = content.replace( '</body>', '\n <script>console.info("Reloading: built '+timestamp.toUTCString()+'");</script> \n <!-- filepath: "'+path+'" | BUILT: ' + timestamp.toUTCString() + ' --> \n<div id="dev-build-timestamp">'+timestamp.toUTCString()+'</div>' );
-            
+
             var slashes = 0, lastSlash = -1, prefix = '';
             while (path.indexOf('/', lastSlash+1) > -1) {
               slashes += 1;
@@ -92,9 +92,9 @@ module.exports = function (grunt) {
                 slashes-=1;
               }
             }
-            
+
             content = content.replace( '</head>', '<link rel="stylesheet" href="'+prefix+'css/dev.css">' );
-            
+
             var tmpl = {
               backbone:       '<script src="'+prefix+'libs/json3/lib/json3.min.js"></script>'+
                               '<script src="'+prefix+'libs/underscore/underscore.js"></script>'+
@@ -142,10 +142,10 @@ module.exports = function (grunt) {
             content = content.replace('<!-- CONSOLE GUARD -->', tmpl.consoleGuard);
             content = content.replace('<!-- MODERNIZR -->', tmpl.modernizr);
             content = content.replace('<!-- YEPNOPE -->', tmpl.yepnope);
-            
+
             content = content.replace('href="css', 'href="'+prefix+'css');
             content = content.replace('src="js', 'src="'+prefix+'js');
-            
+
             return content;
           }
         }
@@ -157,7 +157,7 @@ module.exports = function (grunt) {
         files: [{src: ['src/css/dev.css'], dest: 'dist/css/dev.css'}]
       }
     },
-    
+
     watch: {
       files: ['Gruntfile.js', 'src/**/*.*'],
       tasks: ['default'],
@@ -165,28 +165,28 @@ module.exports = function (grunt) {
         livereload: LIVERELOAD_PORT
       }
     }
-    
+
   });
-  
+
   grunt.loadNpmTasks('grunt-ember-templates');
-  
+
   grunt.loadNpmTasks('grunt-contrib-clean');
-  
+
   grunt.loadNpmTasks('grunt-bower-task');
-  
+
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-jshint');
-  
+
   grunt.loadNpmTasks('grunt-contrib-copy');
-  
+
   grunt.loadNpmTasks('grunt-contrib-connect');
   grunt.loadNpmTasks('grunt-contrib-watch');
-  
+
   grunt.registerTask('default', ['bower:install', 'emberTemplates', 'jshint', 'uglify',  'copy']);
-  
+
   grunt.registerTask('rebuild', ['clean', 'bower:clean', 'bower:install', 'emberTemplates', 'jshint', 'uglify', 'copy']);
-  
+
   // Use server instead of watch to watch with livereload...
   grunt.registerTask('server', ['connect', 'watch']);
-  
+
 };

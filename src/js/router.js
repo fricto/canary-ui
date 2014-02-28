@@ -3,24 +3,24 @@
   'use strict';
 
   Canary.Router.map(function() {
-    
+
     this.resource( 'dashboard', { path: '/dashboard' });
-    
+
     this.resource( 'monitors', { path: '/monitors' });
-    
+
     this.resource('monitor', { path: '/monitor/:monitor_id' }, function() {
       this.resource('records', { path: '/records' });
       this.route('reset');
     });
-    
+
     this.resource('alerts');
-    
+
     this.resource('alert', { path: '/alert/:alert_id' });
-    
+
     this.resource('settings');
-    
+
     this.resource('help');
-    
+
   });
 
 
