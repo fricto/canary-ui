@@ -1,0 +1,40 @@
+            <section class="row" id="reports">
+              <h1 class="page-header">Search Monitors</h1>
+
+
+
+
+              <table class="table table-striped table-hover">
+
+                <caption><h2 class="text-left">Normal Services</h2class="text-left"></caption>
+
+                <thead>
+                  <tr><th>ID</th><th>Service Name</th><th>Last Logged At</th><th>Status</th><th>Average</th><th>Response</th></tr>
+                </thead>
+
+                <tfoot>
+                  <tr>
+                    <td colspan="6" class="text-right">Showing {{searchCount}} of {{monitorCount}} monitors.</td>
+                  </tr>
+                </tfoot>
+
+                <tbody>
+
+{{#each searchResults}}
+
+	{{partial "monitorTableRow"}}
+
+{{else}}
+
+	{{partial "monitorTableIfEmpty"}}
+
+{{/each}}
+                </tbody>
+
+              </table>
+
+
+
+
+
+            </section>

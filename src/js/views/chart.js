@@ -24,6 +24,15 @@
 
 	      var chartData = this.get('controller.graphData');
 
+				if ( this.get( 'hideLabels' ) === true ) {
+		      var numLabels = chartData.labels.length;
+		      var newLabels = [];
+		      for (var x=0; x<numLabels; x++) {
+			      newLabels.push('');
+		      }
+		      chartData.labels = newLabels;
+	      }
+
 	      var chartOptions = {
 
 	        //Boolean - If we show the scale above the chart data

@@ -17,6 +17,9 @@
     itemController: 'alert',
     activeAlerts: function() {
       return this.filterBy('active', true);
+    }.property('@each.active'),
+    archivedAlerts: function() {
+      return this.filterBy('active', false);
     }.property('@each.active')
   });
 

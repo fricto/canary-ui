@@ -44,13 +44,36 @@ module.exports = function (grunt) {
     },
 
     uglify: {
-      options: {
-        sourceMap: true,
-        report: 'gzip'
-      },
+
       build: {
+        options: {
+          sourceMap: true,
+          report: 'gzip'
+        },
         files: {
           'dist/js/main.js': ['tmp/tmpl.js', 'src/js/application.js', 'src/js/router.js', 'src/js/controllers/*.js', 'src/js/views/*.js', 'src/js/models/*.js']
+        }
+      }
+
+    },
+
+    concat: {
+      deps: {
+        options: {
+          separator: ';',
+          stripBanners: {block: true, line: true}
+        },
+        files: {
+          'dist/js/libs.js': [
+            'dist/libs/jquery/jquery.min.js',
+            'dist/libs/bootstrap/dist/js/bootstrap.min.js',
+            'dist/libs/chartjs/Chart.min.js',
+            'dist/libs/handlebars/handlebars.min.js'/*
+,
+            'dist/libs/ember/ember.min.js',
+            'dist/libs/ember-data/ember-data.min.js'
+*/
+          ]
         }
       }
     },
@@ -78,73 +101,8 @@ module.exports = function (grunt) {
 
             var timestamp = new Date();
 
+            // add timestmp to html file(s).
             content = content.replace( '</body>', '\n <script>console.info("Reloading: built '+timestamp.toUTCString()+'");</script> \n <!-- filepath: "'+path+'" | BUILT: ' + timestamp.toUTCString() + ' --> \n<div id="dev-build-timestamp">'+timestamp.toUTCString()+'</div>' );
-
-            var slashes = 0, lastSlash = -1, prefix = '';
-            while (path.indexOf('/', lastSlash+1) > -1) {
-              slashes += 1;
-              lastSlash = path.indexOf('/', lastSlash+1);
-            }
-            if (slashes > 1) {
-              slashes -= 1;
-              while (slashes > 0) {
-                prefix += '../';
-                slashes-=1;
-              }
-            }
-
-            content = content.replace( '</head>', '<link rel="stylesheet" href="'+prefix+'css/dev.css">' );
-
-            var tmpl = {
-              backbone:       '<script src="'+prefix+'libs/json3/lib/json3.min.js"></script>'+
-                              '<script src="'+prefix+'libs/underscore/underscore.js"></script>'+
-                              '<script src="'+prefix+'libs/backbone/backbone-min.js"></script>',
-              angular:        '<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.12/angular.min.js"></script>',
-              knockout:       '<script src="'+prefix+'libs/knockoutjs/build/knockout-raw.js"></script>',
-              ember:          '<script src="'+prefix+'libs/handlebars/handlebars.min.js"></script>'+
-                              '<script src="'+prefix+'libs/ember/ember.min.js"></script>'+
-                              '<script src="'+prefix+'libs/ember-data/ember-data.min.js"></script>',
-              emberDev:       '<script src="'+prefix+'libs/handlebars/handlebars.js"></script>'+
-                              '<script src="'+prefix+'libs/ember/ember.js"></script>'+
-                              '<script src="'+prefix+'libs/ember-data/ember-data.js"></script>',
-              bootstrapJS:    '<script src="'+prefix+'libs/bootstrap/dist/js/bootstrap.min.js"></script>',
-              foundationJS:   '<script src="'+prefix+'libs/foundation/js/foundation.min.js"></script>',
-              bootstrapCSS:   '<link rel="stylesheet" href="'+prefix+'libs/bootstrap/dist/css/bootstrap.min.css">'+
-                              '<link rel="stylesheet" href="'+prefix+'libs/bootstrap/dist/css/bootstrap-theme.min.css">',
-              foundationCSS:  '<link rel="stylesheet" href="'+prefix+'libs/foundation/css/foundation.min.css">',
-              normalize:      '<link rel="stylesheet" href="'+prefix+'libs/normalize-css/normalize.css">',
-              fontAwesome:    '<link rel="stylesheet" href="'+prefix+'libs/font-awesome/css/font-awesome.min.css">',
-              lodash:         '<script src="'+prefix+'libs/lodash/dist/lodash.min.js"></script>',
-              underscore:     '<script src="'+prefix+'libs/underscore/underscore.js"></script>',
-              jquery:         '<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>\n'+
-                              '        <script>window.jQuery || document.write(\'<sc\'+\'ript src="libs/jquery/jquery.min.js"></sc\'+\'ript>\');</script>',
-              webfontloader:  '<script src="http:clean//ajax.googleapis.com/ajax/libs/webfont/1.5.0/webfont.js"></script>',
-              consoleGuard:   '<script src="'+prefix+'libs/consoleGuard/dist/consoleGuard.min.js"></script>',
-              modernizr:      '<script src="'+prefix+'libs/modernizr/modernizr.js"></script>',
-              yepnope:        '<script src="'+prefix+'libs/yepnope/yepnope.1.5.4-min.js"></script>'
-            };
-
-            content = content.replace('<!-- FOUNDATION CSS -->', tmpl.foundationCSS);
-            content = content.replace('<!-- FOUNDATION JS -->', tmpl.foundationJS);
-            content = content.replace('<!-- BOOTSTRAP CSS -->', tmpl.bootstrapCSS);
-            content = content.replace('<!-- BOOTSTRAP JS -->', tmpl.bootstrapJS);
-            content = content.replace('<!-- BACKBONE -->', tmpl.backbone);
-            content = content.replace('<!-- EMBER -->', tmpl.ember);
-            content = content.replace('<!-- EMBER-DEV -->', tmpl.emberDev);
-            content = content.replace('<!-- ANGULAR -->', tmpl.angular);
-            content = content.replace('<!-- KNOCKOUT -->', tmpl.knockout);
-            content = content.replace('<!-- LODASH -->', tmpl.lodash);
-            content = content.replace('<!-- UNDERSCORE -->', tmpl.underscore);
-            content = content.replace('<!-- JQUERY -->', tmpl.jquery);
-            content = content.replace('<!-- WEBFONTLOADER -->', tmpl.webfontloader);
-            content = content.replace('<!-- NORMALIZE -->', tmpl.normalize);
-            content = content.replace('<!-- FONT AWESOME -->', tmpl.fontAwesome);
-            content = content.replace('<!-- CONSOLE GUARD -->', tmpl.consoleGuard);
-            content = content.replace('<!-- MODERNIZR -->', tmpl.modernizr);
-            content = content.replace('<!-- YEPNOPE -->', tmpl.yepnope);
-
-            content = content.replace('href="css', 'href="'+prefix+'css');
-            content = content.replace('src="js', 'src="'+prefix+'js');
 
             return content;
           }
@@ -153,8 +111,11 @@ module.exports = function (grunt) {
       styles: {
         files: [{src: ['src/css/styles.css'], dest: 'dist/css/styles.css'}]
       },
-      dev: {
+      devHelpers: {
         files: [{src: ['src/css/dev.css'], dest: 'dist/css/dev.css'}]
+      },
+      sourceForMaps: {
+        files: [{src: ['src/js/*'], dest: 'dist', expand: true}]
       }
     },
 
@@ -177,16 +138,17 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-jshint');
 
+  grunt.loadNpmTasks('grunt-contrib-concat');
+
   grunt.loadNpmTasks('grunt-contrib-copy');
 
   grunt.loadNpmTasks('grunt-contrib-connect');
   grunt.loadNpmTasks('grunt-contrib-watch');
 
-  grunt.registerTask('default', ['bower:install', 'emberTemplates', 'jshint', 'uglify',  'copy']);
 
-  grunt.registerTask('rebuild', ['clean', 'bower:clean', 'bower:install', 'emberTemplates', 'jshint', 'uglify', 'copy']);
 
-  // Use server instead of watch to watch with livereload...
-  grunt.registerTask('server', ['connect', 'watch']);
+  grunt.registerTask('default', ['bower:install', 'emberTemplates', 'jshint', 'uglify',  'concat', 'copy']);
+  grunt.registerTask('rebuild', ['clean', 'bower:clean', 'default']);
+  grunt.registerTask('server', ['rebuild', 'connect', 'watch']);
 
 };

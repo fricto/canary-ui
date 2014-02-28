@@ -1,0 +1,57 @@
+<div {{bind-attr class="panel isError:panel-danger isWarning:panel-warning isNormal:panel-success"}}>
+  <div class="panel-heading">
+    <h3 class="panel-title">{{serviceName}}</h3>
+  </div>
+  <div class="panel-body">
+
+    {{#if hasActiveAlerts}}
+		{{#each alerts}}
+		{{#if active}}
+    {{partial "alertShort"}}
+		{{/if}}
+		{{/each}}
+		{{/if}}
+
+    {{view Canary.ChartView}}
+
+  </div>
+  <div class="panel-footer">
+    <table class="table table-condensed">
+
+      <tr>
+        <td>Last Logged:</td>
+        <td>{{lastLoggedTime}}</td>
+        <td>Status</td>
+        <td>{{status}}</td>
+      </tr>
+
+    </table>
+
+    <table class="table table-condensed">
+
+      <tr>
+        <td>Duration</td>
+        <td>{{lastLoggedDuration}}</td>
+        <td>Response Type</td>
+        <td>{{lastResponseType}}</td>
+      </tr>
+
+    </table>
+
+    <table class="table table-condensed">
+
+      <tr>
+        <td>Records</td>
+        <td>{{recordCount}}</td>
+        <td>Avg. Duration</td>
+        <td>{{average}}</td>
+        <td>Max Duration</td>
+        <td>{{maxDuration}}</td>
+        <td>Min Duration</td>
+        <td>{{minDuration}}</td>
+      </tr>
+
+    </table>
+
+  </div>
+</div>

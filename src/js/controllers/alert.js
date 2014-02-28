@@ -5,6 +5,7 @@
     actions: {
       archive: function(){
         this.set('active', false);
+        this.transitionToRoute('alerts');
       }
     }
   });

@@ -15,9 +15,11 @@
               <li>{{#link-to 'settings'}}Settings{{/link-to}}</li>
               <li>{{#link-to 'help'}}Help{{/link-to}}</li>
             </ul>
+
             <form class="navbar-form navbar-right">
-              <input type="text" class="form-control" placeholder="Search Monitors...">
+            	{{input type="text" class="form-control" placeholder="Search Monitors.." value=search action="query"}}
             </form>
+
             <div id="alerts-container" class="navbar-right">
 {{outlet alerts}}
             </div>
