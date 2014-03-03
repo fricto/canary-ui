@@ -27,9 +27,16 @@
       return this.filterBy('isNormal', true);
     }.property('@each.isNormal'),
     itemController: 'monitor',
+    gridView: true,
+    tableView: false,
 		actions: {
-			doStuff: function(id) {
-				this.transitionToRoute('records', id);
+			showGridView: function() {
+				this.set('gridView', true);
+				this.set('tableView', false);
+			},
+			showTableview: function() {
+				this.set('gridView', false);
+				this.set('tableView', true);
 			}
 		}
 

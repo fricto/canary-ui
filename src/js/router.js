@@ -4,8 +4,6 @@
 
   Canary.Router.map(function() {
 
-    this.resource( 'dashboard', { path: '/dashboard' });
-
     this.resource( 'monitors', { path: '/monitors' });
 
     this.resource( 'search', { path: '/search/:search_term' });

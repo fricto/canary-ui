@@ -51,7 +51,8 @@ module.exports = function (grunt) {
           report: 'gzip'
         },
         files: {
-          'dist/js/main.js': ['tmp/tmpl.js', 'src/js/application.js', 'src/js/router.js', 'src/js/controllers/*.js', 'src/js/views/*.js', 'src/js/models/*.js']
+          'dist/js/main.js': ['tmp/tmpl.js', 'src/js/application.js', 'src/js/router.js', 'src/js/controllers/*.js', 'src/js/views/*.js', 'src/js/models/*.js'],
+          'dist/js/scripts.js': ['src/js/scripts.js']
         }
       }
 

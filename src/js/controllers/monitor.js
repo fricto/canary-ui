@@ -3,6 +3,18 @@
 
   Canary.MonitorController = Ember.ObjectController.extend({
 
+    isExpanded: false,
+
+    actions: {
+      expand: function() {
+        this.set('isExpanded', true);
+      },
+
+      contract: function() {
+        this.set('isExpanded', false);
+      }
+    },
+
     lastLogged: Ember.reduceComputed('records', {
       initialValue: undefined,
 
