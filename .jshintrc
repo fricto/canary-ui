@@ -53,7 +53,7 @@
 	"supernew"      : true,
 	"validthis"     : false,
 	"noyield"       : false,
-	
+
 	"browser"       : true,
 	"couch"         : false,
 	"devel"         : true,
@@ -68,19 +68,20 @@
 	"worker"        : false,
 	"wsh"           : false,
 	"yui"           : false,
-	
+
 	"nomen"         : false,
 	"onevar"        : false,
 	"passfail"      : false,
 	"white"         : false,
 
 	"globals": {
-      "_": true,
       "module": true,
       "Ember": true,
+      "Em": true,
       "Canary": true,
       "DS": true,
-      "Chart": true
+      "Chart": true,
+      "Handlebars": true
 	}
 
 }

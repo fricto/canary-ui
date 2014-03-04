@@ -3,19 +3,37 @@
 
   Canary.MonitorController = Ember.ObjectController.extend({
 
-    isExpanded: false,
+    // Properties:
 
-    actions: {
-      expand: function() {
-        this.set('isExpanded', true);
-      },
+    isCardExpanded: false,
 
-      contract: function() {
-        this.set('isExpanded', false);
-      }
-    },
+    // Calculated Values:
 
+    isError: function() {
+      return this.get('status') === 'error';
+    }.property('status'),
+
+    isNotError: function() {
+      return this.get('status') !== 'error';
+    }.property('status'),
+
+    isWarning: function() {
+      return this.get('status') === 'warning';
+    }.property('status'),
+
+    isNormal: function() {
+      return this.get('status') === 'success';
+    }.property('status'),
+
+    isNotNormal: function() {
+      return this.get('status') !== 'success';
+    }.property('status'),
+
+    // Latest Record
+
+    // Get the latest record.
     lastLogged: Ember.reduceComputed('records', {
+
       initialValue: undefined,
 
       initialize: function (array, changeMeta, instanceMeta) {
@@ -42,20 +60,27 @@
         }
         return  item;
       }
+
     }),
 
+    // Timestamp of last logged record.
     lastLoggedTime: function() {
       return this.get('lastLogged.loggedTime');
     }.property('lastLogged'),
 
+    // Response type of last logged record.
     lastResponseType: function() {
       return this.getWithDefault('lastLogged.responseType', '--');
     }.property('lastLogged'),
 
+    // Duration of last logged record.
     lastLoggedDuration: function() {
       return this.get('lastLogged.duration');
     }.property('lastLogged'),
 
+    // Cumulative Stats
+
+    // Array of durations.
     durations: Ember.arrayComputed('records', {
       addedItem: function(array, item, changeMeta) {
         array.insertAt(changeMeta.index, item.get('duration'));
@@ -67,24 +92,13 @@
       }
     }),
 
-    recordCount: Ember.reduceComputed('records', {
-      initialValue: 0,
-
-      addedItem: function (accumulatedValue) {
-        accumulatedValue++;
-        return  accumulatedValue;
-      },
-
-      removedItem: function (accumulatedValue) {
-        accumulatedValue--;
-        return  accumulatedValue;
-      }
-    }),
-
+    // Smallest observed duration.
     minDuration: Ember.computed.min('durations'),
 
+    // Largest observed duration.
     maxDuration: Ember.computed.max('durations'),
 
+    // Average duration
     average: Ember.reduceComputed('records', {
       initialValue: 0,
 
@@ -106,6 +120,7 @@
       }
     }),
 
+    // Does this record have active allerts?
     hasActiveAlerts: Ember.reduceComputed('alerts', {
       initialValue: false,
 
@@ -127,7 +142,22 @@
         }
         return instanceMeta.activeAlerts > 0;
       }
-    })
+    }),
+
+    // Actions:
+    actions: {
+
+      // Toggle the expanded/collapsed state of a card in the grid view.
+      toggleCard: function() {
+        this.set( 'isCardExpanded', !this.get('isCardExpanded') );
+      },
+
+      reset: function() {
+        this.set( 'status', 'success' );
+        this.transitionToRoute('monitor', this.get('id'));
+      }
+
+    }
 
   });
 

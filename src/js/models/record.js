@@ -1,13 +1,17 @@
 (function(){
+
   'use strict';
 
   Canary.Record = DS.Model.extend({
-    monitor: DS.belongsTo('monitor',{async:true}),
+
     loggedTime: DS.attr(),
     start: DS.attr(),
     end: DS.attr(),
     duration: DS.attr(),
-    responseType: DS.attr()
+    responseType: DS.attr(),
+
+    monitor: DS.belongsTo('monitor',{async:true})
+
   });
 
   Canary.Record.FIXTURES = [
@@ -312,4 +316,5 @@
     {'id':299,'monitor':12,'loggedTime':'2014-02-17T20:28:39.177Z','start':'2014-02-17T20:28:39.151Z','end':'2014-02-17T20:28:39.059Z','duration':92,'responseType':'Delta'},
     {'id':300,'monitor':12,'loggedTime':'2014-02-17T20:28:39.177Z','start':'2014-02-17T20:28:39.114Z','end':'2014-02-17T20:28:39.041Z','duration':73,'responseType':'Gamma'}
   ];
+
 })();

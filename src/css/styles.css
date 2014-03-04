@@ -87,4 +87,8 @@ body {
 	margin: 7px;
 }
 
-#nav-alerts-link a {text-decoration: none;}
+#nav-alerts-link a{text-decoration: none;}
+
+.panel-heading a {
+	color: inherit;
+}

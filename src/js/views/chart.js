@@ -3,124 +3,74 @@
   'use strict';
 
   Canary.ChartView = Ember.View.extend({
-    templateName: 'chart',
 
-    init: function() {
-       // Have to touch these computed values so that they'll be ... computed.
-      this.get('controller.graphData');
-      this.get('controller.graphLabels');
-    },
     didInsertElement: function() {
-	    this.drawChart();
+      // Need to grab a calculated value or that value will never get calculated
+      // and observers will never fire.
+      this.get('controller.records.length');
+
+      // Avoid asynchronicity issues by calling this once directly.
+      this.drawLineChart();
     },
-    drawChart: function() {
-      if (this) {
 
-	      var $chartContainer = this.$(".chart");
-	      $chartContainer.attr('width', $chartContainer.parent().width());
-	      $chartContainer.attr('height', $chartContainer.parent().width() / 1.6);
+    // Properties:
 
-	      var chartContext = $chartContainer.get(0).getContext("2d");
+    hideLabels: false,
 
-	      var chartData = this.get('controller.graphData');
+    // Methods:
 
-				if ( this.get( 'hideLabels' ) === true ) {
-		      var numLabels = chartData.labels.length;
-		      var newLabels = [];
-		      for (var x=0; x<numLabels; x++) {
-			      newLabels.push('');
-		      }
-		      chartData.labels = newLabels;
-	      }
+    // Draw line chart
+    lineChartBuilder: function() {
 
-	      var chartOptions = {
+      var chartData = {labels: [], datasets: [{
+        fillColor : "rgba(151,187,205,0.5)",
+        strokeColor : "rgba(151,187,205,1)",
+        pointColor : "rgba(151,187,205,1)",
+        pointStrokeColor : "#fff",
+        data: []
+      }]};
 
-	        //Boolean - If we show the scale above the chart data
-	        scaleOverlay : false,
+      if ( this.get('controller.records.length') > 0 ) {
+        chartData.labels = this.get('controller.records').getEach('loggedTime');
+        chartData.datasets[0].data = this.get('controller.records').getEach('duration');
+      }
 
-	        //Boolean - If we want to override with a hard coded scale
-	        scaleOverride : false,
+      // Cache a reference the jQuery object representing the chart container.
+      var $chartContainer = this.$(".chart");
 
-	        //** Required if scaleOverride is true **
-	        //Number - The number of steps in a hard coded scale
-	        scaleSteps : null,
-	        //Number - The value jump in the hard coded scale
-	        scaleStepWidth : null,
-	        //Number - The scale starting value
-	        scaleStartValue : null,
+      if ($chartContainer && chartData.labels.length > 0) {
 
-	        //String - Colour of the scale line
-	        scaleLineColor : "rgba(0,0,0,.1)",
+        // Set the width and the height of the chart container to support responsive layout.
+        $chartContainer.attr('width', $chartContainer.parent().width());
+        $chartContainer.attr('height', $chartContainer.parent().width() / 1.6);
 
-	        //Number - Pixel width of the scale line
-	        scaleLineWidth : 1,
+        // Set the getContext value for the canvas element.
+        var chartContext = $chartContainer.get(0).getContext("2d");
 
-	        //Boolean - Whether to show labels on the scale
-	        scaleShowLabels : true,
+        // Hide the labels if the controller says to.
+        if ( this.get( 'hideLabels' ) === true ) {
+          var numLabels = chartData.labels.length;
+          var newLabels = [];
+          for (var x=0; x<numLabels; x++) {
+            newLabels.push('');
+          }
+          chartData.labels = newLabels;
+        }
 
-	        //Interpolated JS string - can access value
-	        scaleLabel : "<%=value%>",
-
-	        //String - Scale label font declaration for the scale label
-	        scaleFontFamily : "'Arial'",
-
-	        //Number - Scale label font size in pixels
-	        scaleFontSize : 12,
-
-	        //String - Scale label font weight style
-	        scaleFontStyle : "normal",
-
-	        //String - Scale label font colour
-	        scaleFontColor : "#666",
-
-	        ///Boolean - Whether grid lines are shown across the chart
-	        scaleShowGridLines : true,
-
-	        //String - Colour of the grid lines
-	        scaleGridLineColor : "rgba(0,0,0,.05)",
-
-	        //Number - Width of the grid lines
-	        scaleGridLineWidth : 1,
-
-	        //Boolean - Whether the line is curved between points
-	        bezierCurve : true,
-
-	        //Boolean - Whether to show a dot for each point
-	        pointDot : true,
-
-	        //Number - Radius of each point dot in pixels
-	        pointDotRadius : 3,
-
-	        //Number - Pixel width of point dot stroke
-	        pointDotStrokeWidth : 1,
-
-	        //Boolean - Whether to show a stroke for datasets
-	        datasetStroke : true,
-
-	        //Number - Pixel width of dataset stroke
-	        datasetStrokeWidth : 2,
-
-	        //Boolean - Whether to fill the dataset with a colour
-	        datasetFill : true,
-
-	        //Boolean - Whether to animate the chart
-	        animation : true,
-
-	        //Number - Number of animation steps
-	        animationSteps : 60,
-
-	        //String - Animation easing effect
-	        animationEasing : "easeOutQuart",
-
-	        //Function - Fires when the animation is complete
-	        onAnimationComplete : null
-
-	      };
-
-	      Canary.recordChart = new Chart(chartContext).Line(chartData, chartOptions);
+        // Create a new Line Chart using Chart.js.
+        Canary.recordChart = new Chart(chartContext).Line(chartData, Canary.config.chartJSLineChartOptions);
 
       }
-    }.observes('controller.graphData')
+
+    },
+
+    // This method observes another observer of the chart data.
+    // Observing the chart data directly doesn't seem to work.
+    // Debouncing the call to the actual chartbuilder method,
+    // because this observer fires for each datapoint.
+    drawLineChart: function() {
+      Ember.run.debounce(this, this.lineChartBuilder, 100);
+    }.observes('controller.average')
 
   });
 

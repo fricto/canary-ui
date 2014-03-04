@@ -1,0 +1,73 @@
+<div {{bind-attr class=":panel isError:panel-danger isWarning:panel-warning isNormal:panel-success"}}>
+
+  <div class="panel-heading">
+
+
+    <span {{action 'toggleCard'}} data-toggle="tooltip" data-placement="bottom" title="View Monitor Details" {{bind-attr class=":floated-icon :pull-right :glyphicon :has-tooltip isCardExpanded:glyphicon-minus isCardExpanded::glyphicon-plus"}}></span>
+
+    {{#if hasActiveAlerts}}
+      {{#link-to 'monitor' id}}
+        <span data-toggle="tooltip" data-placement="bottom" title="There are new alerts for this monitor." class="floated-icon pull-right glyphicon glyphicon-exclamation-sign has-tooltip"></span>
+      {{/link-to}}
+    {{/if}}
+
+    {{#link-to 'monitor' id}}
+      <h3 class="panel-title">{{serviceName}}</h3>
+    {{/link-to}}
+
+  </div>
+
+  {{#if isCardExpanded}}
+
+    <div class="panel-body" {{action "viewRecord" id}}>
+
+			{{#if isError}}
+  			<div class="alert alert-danger">
+  				<p class="text-center">Monitor has paused polling due to errors.<br><button {{action "reset" id}} class="btn btn-default btn-sm">reset</button></p>
+  			</div>
+			{{/if}}
+
+      {{#if hasActiveAlerts}}
+        {{#each alerts}}
+          {{#if active}}
+            {{partial "alertShort"}}
+          {{/if}}
+        {{/each}}
+      {{/if}}
+
+      {{render "chart" monitor hideLabels=true}}
+
+    </div>
+
+    <div class="panel-footer" {{action "viewRecord" id}}>
+
+      <table class="table table-condensed table-responsive">
+        <tr>
+          <td class="text-right text-muted">Last Logged:</td>
+          <td colspan="4">{{lastLoggedTime}}</td>
+          <td colspan="2" class="text-right text-muted">Status:</td>
+          <td>{{status}}</td>
+        </tr>
+        <tr>
+          <td class="text-right text-muted">Duration:</td>
+          <td colspan="4">{{lastLoggedDuration}}</td>
+          <td colspan="2" class="text-right text-muted">Response Type:</td>
+          <td>{{lastResponseType}}</td>
+        </tr>
+        <tr>
+          <td class="text-right text-muted">Records:</td>
+          <td>{{records.length}}</td>
+          <td class="text-right text-muted">Avg. Dur:</td>
+          <td>{{average}}</td>
+          <td class="text-right text-muted">Max Dur:</td>
+          <td>{{maxDuration}}</td>
+          <td class="text-right text-muted">Min Dur:</td>
+          <td>{{minDuration}}</td>
+        </tr>
+      </table>
+
+    </div>
+
+  {{/if}}
+
+</div>

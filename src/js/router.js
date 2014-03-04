@@ -4,14 +4,11 @@
 
   Canary.Router.map(function() {
 
-    this.resource( 'monitors', { path: '/monitors' });
+    this.resource( 'monitors', { path: '/' });
 
     this.resource( 'search', { path: '/search/:search_term' });
 
-    this.resource('monitor', { path: '/monitor/:monitor_id' }, function() {
-      this.resource('records', { path: '/records' });
-      this.route('reset');
-    });
+    this.resource('monitor', { path: '/monitor/:monitor_id' });
 
     this.resource('alerts');
 
@@ -25,17 +22,9 @@
 
 
 
-  Canary.IndexRoute = Ember.Route.extend({
-    renderTemplate: function(){
-      this.transitionTo('monitors');
-    }
-  });
-
-
-
   Canary.MonitorsRoute = Ember.Route.extend({
-    setupController: function(controller) {
-      controller.set('content', this.store.find('monitor'));
+    model: function() {
+      return this.store.find('monitor');
     },
     renderTemplate: function() {
       this.render('monitors', {
@@ -64,7 +53,6 @@
       });
     }
   });
-
 
   Canary.SearchRoute = Ember.Route.extend({
     setupController: function(controller) {
@@ -109,8 +97,8 @@
 
 
   Canary.AlertsRoute = Ember.Route.extend({
-    setupController: function(controller) {
-      controller.set('model', this.store.find('alert', {active: true}));
+    model: function() {
+      return this.store.find('alert');
     },
     renderTemplate: function() {
       this.render('alerts', {

@@ -1,110 +1,90 @@
-            <section class="row" id="reports">
-							<div class="md-col-12">
+<section class="row" id="reports">
+  <div class="md-col-12">
 
-              <div class="btn-group pull-right">
-							  <button type="button" {{bind-attr class=":btn :btn-default gridView:active"}} {{action 'showGridView'}}><i class="glyphicon glyphicon-th"></i></button>
-							  <button type="button" {{bind-attr class=":btn :btn-default tableView:active"}} {{action 'showTableView'}}><i class="glyphicon glyphicon-th-list"></i></button>
-							</div>
+    <div class="btn-group pull-right">
+      <button type="button" {{bind-attr class=":btn :btn-default showGridView:active"}} {{action 'showGridView'}}><i class="glyphicon glyphicon-th"></i></button>
+      <button type="button" {{bind-attr class=":btn :btn-default showGridView::active"}} {{action 'showTableview'}}><i class="glyphicon glyphicon-th-list"></i></button>
+    </div>
 
-							<h1 class="page-header">Monitors</h1>
+    <h1 class="page-header">Monitors</h1>
 
-{{#if gridView}}
-<div id="monitor-cards">
-<h2>cards</h2>
+      {{#if showGridView}}
 
-{{#each monitor in errors}}
+        <div id="monitor-cards">
 
-<div class="col-md-6">
-{{render "monitorCard" monitor}}
-</div>
+          {{#each monitor in errors}}
 
-{{/each}}
+            <div class="col-md-6">
+              {{partial "monitorCard"}}
+            </div>
 
-{{#each monitor in warnings}}
+          {{/each}}
 
-<div class="col-md-6">
-{{render "monitorCard" monitor}}
-</div>
+          {{#each monitor in warnings}}
 
-{{/each}}
+            <div class="col-md-6">
+              {{partial "monitorCard"}}
+            </div>
 
-{{#each monitor in normals}}
+          {{/each}}
 
-<div class="col-md-6">
-{{render "monitorCard" monitor}}
-</div>
+          {{#each monitor in normals}}
 
-{{/each}}
+            <div class="col-md-6">
+              {{partial "monitorCard"}}
+            </div>
 
-</div>
-{{else}}
+          {{/each}}
 
+        </div>
 
+      {{else}}
 
+        {{#if errorCount}}
+          <table class="table table-striped table-hover">
+            <caption><h2 class="text-left">Service Errors</h2></caption>
+            <thead><tr><th>ID</th><th>Service Name</th><th>Last Logged At</th><th>Status</th><th>Average</th><th>Response</th><th>&nbsp;</th></tr></thead>
+            <tfoot><tr><td colspan="5" class="text-right">Showing {{errorCount}} monitors.</td></tr></tfoot>
+            <tbody>
+              {{#each errors}}
+                {{partial "monitorTableRow"}}
+              {{else}}
+                {{partial "monitorTableIfEmpty"}}
+              {{/each}}
+            </tbody>
+          </table>
+        {{/if}}
 
+        {{#if warnCount}}
+        <table class="table table-striped table-hover">
+        <caption><h2 class="text-left">Service Warnings</h2<</caption>
+          <thead><tr><th>ID</th><th>Service Name</th><th>Last Logged At</th><th>Status</th><th>Average</th><th>Response</th></tr></thead>
+          <tfoot><tr><td colspan="6" class="text-right">Showing {{warnCount}} monitors.</td></tr></tfoot>
+          <tbody>
+            {{#each warnings}}
+              {{partial "monitorTableRow"}}
+            {{else}}
+              {{partial "monitorTableIfEmpty"}}
+            {{/each}}
+          </tbody>
+        </table>
+      {{/if}}
 
+      <table class="table table-striped table-hover">
+        <caption><h2 class="text-left">Normal Services</h2class="text-left"></caption>
+        <thead><tr><th>ID</th><th>Service Name</th><th>Last Logged At</th><th>Status</th><th>Average</th><th>Response</th></tr></thead>
+        <tfoot><tr><td colspan="6" class="text-right">Showing {{normalCount}} monitors.</td></tr></tfoot>
+        <tbody>
+          {{#each normals}}
+            {{partial "monitorTableRow"}}
+          {{else}}
+            {{partial "monitorTableIfEmpty"}}
+          {{/each}}
+        </tbody>
+      </table>
 
-{{#if errorCount}}
-              <table class="table table-striped table-hover">
+    {{/if}}
 
-                <caption><h2 class="text-left">Service Errors</h2></caption>
+  </div> <!-- md-col-12 -->
 
-                <thead>
-                  <tr><th>ID</th><th>Service Name</th><th>Last Logged At</th><th>Status</th><th>Reset</th></tr>
-                </thead>
-
-                <tfoot>
-                  <tr>
-                    <td colspan="5" class="text-right">Showing {{errorCount}} monitors.</td>
-                  </tr>
-                </tfoot>
-
-                <tbody>
-{{view Canary.ErrorMonitorTableRowView}}
-                </tbody>
-
-              </table>
-{{/if}}
-{{#if warnCount}}
-              <table class="table table-striped table-hover">
-
-                <caption><h2 class="text-left">Service Warnings</h2<</caption>
-
-                <thead>
-                  <tr><th>ID</th><th>Service Name</th><th>Last Logged At</th><th>Status</th><th>Average</th><th>Response</th></tr>
-                </thead>
-
-                <tfoot>
-                  <tr>
-                    <td colspan="6" class="text-right">Showing {{warnCount}} monitors.</td>
-                  </tr>
-                </tfoot>
-
-                <tbody>
-{{view Canary.WarningMonitorTableRowView}}
-                </tbody>
-
-              </table>
-{{/if}}
-              <table class="table table-striped table-hover">
-
-                <caption><h2 class="text-left">Normal Services</h2class="text-left"></caption>
-
-                <thead>
-                  <tr><th>ID</th><th>Service Name</th><th>Last Logged At</th><th>Status</th><th>Average</th><th>Response</th></tr>
-                </thead>
-
-                <tfoot>
-                  <tr>
-                    <td colspan="6" class="text-right">Showing {{normalCount}} monitors.</td>
-                  </tr>
-                </tfoot>
-
-                <tbody>
-{{view Canary.NormalMonitorTableRowView}}
-                </tbody>
-
-              </table>
-{{/if}}
-							</div
-            </section>
+</section>

@@ -2,6 +2,8 @@
 
   'use strict';
 
+  // Setting up the FixtureAdapter to handle requests correctly.
+  // This is for development and testing only.
   DS.FixtureAdapter.reopen({
     queryFixtures: function(fixtures, query) {
       return fixtures.filter(function(fixture) {
@@ -18,17 +20,16 @@
     }
   });
 
-  window.Canary = Ember.Application.create({rootElement:"#canary"/*, LOG_TRANSITIONS: true*/});
+  // Create the app and assign the DOM Element container.
+  window.Canary = Ember.Application.create({
+    rootElement:"#canary"
+  });
 
-  //Canary.ApplicationAdapter = DS.FixtureAdapter.extend();
-
+  // Tell the store to use FixtureAdapter.
+  // This is for development and testing only.
   Canary.Store = DS.Store.extend({
     revision:  12,
     adapter: DS.FixtureAdapter
   });
-
-
-
-
 
 })();

@@ -3,10 +3,17 @@
 		<div class="col-md-12">
 			<h1 class="page-header">Alerts</h1>
 
-{{#each activeAlerts}}
-{{partial "alertFull"}}
-{{else}}
-{{/each}}
+			<h2>New Alerts</h2>
+
+			{{#each activeAlerts}}
+				{{partial "alertFull"}}
+			{{/each}}
+
+			<h2>Archived Alerts</h2>
+
+			{{#each archivedAlerts}}
+				{{partial "alertFull"}}
+			{{/each}}
 
 		</div>
 	</div>

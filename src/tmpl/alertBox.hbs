@@ -1,7 +1,10 @@
-{{#if areActiveAlerts}}
-<p id="nav-alerts-link" class="alert alert-warning">
-	{{#link-to 'alerts' class="alert-link"}}
-		<span class="glyphicon glyphicon-exclamation-sign"></span> {{active}} Alerts
-	{{/link-to}}
-</p>
-{{/if}}
+            <div id="alerts-container" class="navbar-right">
+
+							{{#if areActiveAlerts}}
+								<p id="nav-alerts-link" class="alert alert-warning">
+									{{#link-to 'alerts' class="alert-link"}}
+										<span class="glyphicon glyphicon-exclamation-sign"></span> {{active}} Alerts
+									{{/link-to}}
+								</p>
+							{{/if}}
+            </div>
