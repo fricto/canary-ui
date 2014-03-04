@@ -57,12 +57,7 @@
 			// Show the table view.
 			showTableview: function() {
 				this.set('showGridView', false);
-			},
-
-			// Go to a record detail page.
-			viewRecord: function(id) {
-        this.transitionToRoute('monitor', id);
-      }
+			}
 
 		}
 

@@ -2,7 +2,7 @@
 
   'use strict';
 
-  Canary.SearchController = Ember.ArrayController.extend({
+  Canary.SearchController = Canary.MonitorsController.extend({
 
     needs: ['application'],
 
@@ -15,7 +15,7 @@
 
       addedItem: function (accumulatedValue, item) {
         if ( item.get( 'serviceName' ).indexOf( this.get( 'controllers.application.search' ) ) > -1 ) {
-           accumulatedValue.pushObject( item );
+           accumulatedValue.pushObject( Canary.MonitorController.create( {model: item} ) );
         }
         return  accumulatedValue;
       },

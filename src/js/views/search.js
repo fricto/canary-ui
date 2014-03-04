@@ -2,7 +2,7 @@
 
   'use strict';
 
-  Canary.MonitorsView = Ember.View.extend({
+  Canary.SearchView = Ember.View.extend({
 
     didInsertElement: function() {
 
