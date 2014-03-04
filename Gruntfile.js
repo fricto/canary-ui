@@ -117,6 +117,9 @@ module.exports = function (grunt) {
       },
       sourceForMaps: {
         files: [{src: ['src/js/*'], dest: 'dist', expand: true}]
+      },
+      images: {
+        files: [{src: ['img/*'], dest: 'dist', expand: true}]
       }
     },
 
