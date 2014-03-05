@@ -81,6 +81,10 @@ body {
 	margin: 3px 10px;
 }
 
+.navbar-nav>li>a.active {
+	color: #fff;
+	font-weight: bold;
+}
 
 #alerts-container p.alert {
 	padding: 6px 12px;

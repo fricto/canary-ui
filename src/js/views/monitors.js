@@ -14,17 +14,7 @@
 
     tooltips: function () {
 	    $('.has-tooltip').tooltip();
-    },
-
-    // Actions:
-		actions: {
-
-			// Go to a record detail page.
-			viewRecord: function(id) {
-        this.transitionTo('monitor', id);
-      }
-
-		}
+    }
 
   });
 

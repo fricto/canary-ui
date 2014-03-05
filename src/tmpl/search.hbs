@@ -15,7 +15,7 @@
 
                 <tbody>
 									{{#each searchResults}}
-										<tr {{bind-attr class="isError:danger isWarning:warning isNormal:success"}}>
+										<tr {{action "viewRecord" id}} {{bind-attr class="isError:danger isWarning:warning isNormal:success"}}>
 											<td>{{id}}</td>
 											<td>{{serviceName}}</td>
 											<td>{{lastLoggedTime}}</td>

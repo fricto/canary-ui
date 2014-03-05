@@ -8,6 +8,7 @@
 
 		search: '',
 		titleFilter: null,
+		needs: ['alerts'],
 
 		// Subsets:
 
@@ -31,7 +32,6 @@
 				var query = this.get('search');
 				this.transitionToRoute('search', encodeURIComponent(query));
 			}
-
 		}
 
 	});

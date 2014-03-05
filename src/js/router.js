@@ -23,6 +23,19 @@
   });
 
 
+  Canary.ApplicationRoute = Ember.Route.extend({
+    actions: {
+      // Go to a record detail page.
+			viewRecord: function(id) {
+        this.transitionTo('monitor', id);
+      }
+    },
+    renderTemplate: function() {
+      this.render();
+      this.controllerFor('alerts').set('model', this.store.find('alert', {active: true}));
+    }
+  });
+
 
   Canary.MonitorsRoute = Ember.Route.extend({
     model: function() {
@@ -34,7 +47,7 @@
       });
       this.render('alertBox', {
         outlet: 'alerts',
-        controller: this.controllerFor('alerts').set('model', this.store.find('alert', {active: true}))
+        controller: this.controllerFor('alerts')
       });
     }
   });
@@ -51,7 +64,7 @@
       });
       this.render('alertBox', {
         outlet: 'alerts',
-        controller: this.controllerFor('alerts').set('model', this.store.find('alert', {active: true}))
+        controller: this.controllerFor('alerts')
       });
     }
   });
@@ -92,7 +105,7 @@
       });
       this.render('alertBox', {
         outlet: 'alerts',
-        controller: this.controllerFor('alerts').set('model', this.store.find('alert', {active: true}))
+        controller: this.controllerFor('alerts')
       });
     }
   });
