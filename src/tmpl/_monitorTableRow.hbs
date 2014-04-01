@@ -1,10 +1,16 @@
 <tr {{action "viewRecord" id}} {{bind-attr class="isError:danger isWarning:warning isNormal:success"}}>
-  <td>{{id}}</td>
-  <td>{{serviceName}}</td>
-  <td>{{lastLoggedTime}}</td>
-  <td>{{status}}</td>
-  <td>{{average}}</td>
-  <td>{{lastResponseType}}</td>
+  <td>{{identifier}}</td>
+  <td>{{name}}</td>
+  {{#if hasRecords}}
+    <td>{{lastLoggedTime}}</td>
+    <td>{{status}}</td>
+    <td>{{average}}</td>
+    <td>{{lastResponseType}}</td>
+  {{else}}
+    <td colspan="4">
+      This monitor has not generated any records yet.
+    </td>
+  {{/if}}
   <td>
     {{#if isError}}
       <button class="btn btn-default btn-xs" {{action "reset" id}}>reset</button>

@@ -79,7 +79,7 @@
       "Ember": true,
       "Em": true,
       "Canary": true,
-      "DS": true,
+      "_": true,
       "Chart": true,
       "Handlebars": true
 	}

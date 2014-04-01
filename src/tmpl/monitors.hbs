@@ -43,13 +43,11 @@
         {{#if errorCount}}
           <table class="table table-striped table-hover table-responsive">
             <caption><h2 class="text-left">Service Errors</h2></caption>
-            <thead><tr><th>ID</th><th>Service Name</th><th>Last Logged At</th><th>Status</th><th>Average</th><th>Response</th><th>&nbsp;</th></tr></thead>
+            <thead><tr><th>Identifier</th><th>Service Name</th><th>Last Logged At</th><th>Status</th><th>Average</th><th>Response</th><th>&nbsp;</th></tr></thead>
             <tfoot><tr><td colspan="7" class="text-right">Showing {{errorCount}} monitors.</td></tr></tfoot>
             <tbody>
               {{#each errors}}
                 {{partial "monitorTableRow"}}
-              {{else}}
-                {{partial "monitorTableIfEmpty"}}
               {{/each}}
             </tbody>
           </table>
@@ -63,8 +61,6 @@
           <tbody>
             {{#each warnings}}
               {{partial "monitorTableRow"}}
-            {{else}}
-              {{partial "monitorTableIfEmpty"}}
             {{/each}}
           </tbody>
         </table>
@@ -72,7 +68,7 @@
 
       <table class="table table-striped table-hover">
         <caption><h2 class="text-left">Normal Services</h2class="text-left"></caption>
-        <thead><tr><th>ID</th><th>Service Name</th><th>Last Logged At</th><th>Status</th><th>Average</th><th>Response</th></tr></thead>
+        <thead><tr><th>Identifier</th><th>Service Name</th><th>Last Logged At</th><th>Status</th><th>Average</th><th>Response</th></tr></thead>
         <tfoot><tr><td colspan="7" class="text-right">Showing {{normalCount}} monitors.</td></tr></tfoot>
         <tbody>
           {{#each normals}}

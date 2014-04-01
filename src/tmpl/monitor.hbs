@@ -9,7 +9,13 @@
 	<div class="row">
 
 		<div class="col-md-8 col-md-push-4">
-			{{render "chart" controller hideLabels=false}}
+			{{#if hasRecords}}
+				{{render "chart" controller hideLabels=false}}
+			{{else}}
+				<div class="alert alert-info">
+          <p>This monitor has not generated any records yet.</p>
+        </div>
+			{{/if}}
 		</div>
 
 		<div class="col-md-4 col-md-pull-8">
@@ -28,32 +34,56 @@
 						</div>
 					{{/if}}
 
-					{{#if hasActiveAlerts}}
-						{{#each alerts}}
-							{{#if active}}
-								{{partial "alertShort"}}
-							{{/if}}
-						{{/each}}
+					<h3>Status</h3>
+					{{#if hasRecords}}
+						<dl class="dl-horizontal">
+							<dt>Current Status</dt>
+							<dd>{{status}}</dd>
+							<dt>Last Logged</dt>
+							<dd>{{lastLoggedTime}}</dd>
+							<dt>Latest Duration</dt>
+							<dd>{{lastLoggedDuration}}</dd>
+							<dt>Latest Response Type</dt>
+							<dd>{{lastResponseType}}</dd>
+							<dt>Records Stored</dt>
+							<dd>{{records.records.length}}</dd>
+							<dt>Average Duration</dt>
+							<dd>{{average}}</dd>
+							<dt>Max Duration</dt>
+							<dd>{{maxDuration}}</dd>
+							<dt>Min Duration</dt>
+							<dd>{{minDuration}}</dd>
+						</dd>
+					{{else}}
+						<div class="alert alert-info">
+			        <p>This monitor has not generated any records yet.</p>
+			      </div>
 					{{/if}}
 
+					<hr>
+
+					<h3>Configuration</h3>
 					<dl class="dl-horizontal">
-						<dt>Current Status</dt>
-						<dd>{{status}}</dd>
-						<dt>Last Logged</dt>
-						<dd>{{lastLoggedTime}}</dd>
-						<dt>Latest Duration</dt>
-						<dd>{{lastLoggedDuration}}</dd>
-						<dt>Response Type</dt>
-						<dd>{{lastResponseType}}</dd>
-						<dt>Records Stored</dt>
-						<dd>{{records.length}}</dd>
-						<dt>Average Duration</dt>
-						<dd>{{average}}</dd>
-						<dt>Max Duration</dt>
-						<dd>{{maxDuration}}</dd>
-						<dt>Min Duration</dt>
-						<dd>{{minDuration}}</dd>
-					</dl>
+						<dt>Alarm Criteria</dt>
+						<dd>{{alarmThreshold}} {{alarmCriteria}}</dd>
+						<dt>Alarm Condition</dt>
+						<dd>{{maxExecutionTime}} ms</dd>
+						<dt>Polling Interval</dt>
+						<dd>{{pollInterval}} {{pollIntervalUnit}}</dd>
+						<dt>Persist on Alarm?</dt>
+						<dd>{{persistWhenAlarmed}}</dd>
+						{{#if resetCriterialDefined}}
+							<dt>Reset Criteria</dt>
+							<dd>{{resetInterval}} {{resetIntervalUnit}}</dd>
+						{{else}}
+							<dt>Reset Criteria</dt>
+							<dd>Not Configured</dd>
+						{{/if}}
+						<dt>Maximum Records</dt>
+						<dd>{{maxNumberOfRecords}}</dd>
+					</dd>
+
+
 
 				</div>
 			</div>
@@ -65,26 +95,40 @@
 		<div class="col-md-12">
 			<div class="table-responsive">
 				<h2>Records</h2>
-			  <table class="table table-condensed table-striped table-hover">
-					<tbody>
-					<tr>
-						<th>Timestamp</th>
-						<th>Request</th>
-						<th>Response</th>
-						<th>Duration (ms)</th>
-						<th>Response Type</th>
-					</tr>
-					{{#each records}}
+				{{#if hasRecords}}
+				  <table class="table table-condensed table-striped table-hover">
+						<tbody>
 						<tr>
-							<td>{{loggedTime}}</td>
-							<td>{{start}}</td>
-							<td>{{end}}</td>
-							<td>{{duration}}</td>
-							<td>{{responseType}}</td>
+							<th>Start Time</th>
+							<th>End Time</th>
+							<th>Duration (ms)</th>
+							<th>Message</th>
+							<th>Excused</th>
+							<th>Response Type</th>
 						</tr>
-					{{/each}}
-					</tbody>
-			  </table>
+						{{#each records.records}}
+							<tr>
+								<td>{{startTime}}</td>
+								<td>{{endTime}}</td>
+								<td>{{duration startTime endTime}}</td>
+								<td>{{message}}
+								{{#if message}}
+									{{message}}
+								{{else}}
+								 	--
+								{{/if}}
+								</td>
+								<td>{{excused}}</td>
+								<td>{{responseType}}</td>
+							</tr>
+						{{/each}}
+						</tbody>
+				  </table>
+			 {{else}}
+					<div class="alert alert-info">
+		        <p>This monitor has not generated any records yet.</p>
+		      </div>
+				{{/if}}
 			</div>
 		</div>
 	</div> <!-- /row -->

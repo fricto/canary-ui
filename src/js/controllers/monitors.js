@@ -17,7 +17,7 @@
     }.property('@each'),
 
     errorCount: function() {
-      return this.filterBy('isError', true).get('length');
+      return this.filterBy('records.alarmed', true).get('length');
     }.property('@each.isError'),
 
     warnCount: function() {

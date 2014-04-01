@@ -30,9 +30,11 @@
         data: []
       }]};
 
-      if ( this.get('controller.records.length') > 0 ) {
-        chartData.labels = this.get('controller.records').getEach('loggedTime');
-        chartData.datasets[0].data = this.get('controller.records').getEach('duration');
+      if ( this.get('controller.records.records').length > 0 ) {
+        _.forEach(this.get('controller.records.records'), function(record) {
+          chartData.labels.push(record.startTime);
+          chartData.datasets[0].data.push(Canary.dateOffsetInMilliseconds(record.startTime, record.endTime));
+        });
       }
 
       // Cache a reference the jQuery object representing the chart container.

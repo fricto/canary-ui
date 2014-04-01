@@ -64,4 +64,8 @@
 
   };
 
+  Ember.Handlebars.helper('duration', function(startTime, stopTime) {
+    return new Handlebars.SafeString(Canary.dateOffsetInMilliseconds(startTime, stopTime));
+  });
+
 })();

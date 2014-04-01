@@ -10,62 +10,43 @@
     // Calculated Values:
 
     isError: function() {
-      return this.get('status') === 'error';
-    }.property('status'),
+      return this.get('records.alarmed') === true;
+    }.property('records.alarmed'),
 
     isNotError: function() {
-      return this.get('status') !== 'error';
-    }.property('status'),
-
-    isWarning: function() {
-      return this.get('status') === 'warning';
-    }.property('status'),
+      return this.get('records.alarmed') === false;
+    }.property('records.alarmed'),
 
     isNormal: function() {
-      return this.get('status') === 'success';
-    }.property('status'),
+      return this.get('records.alarmed') === false;
+    }.property('records.alarmed'),
 
     isNotNormal: function() {
-      return this.get('status') !== 'success';
-    }.property('status'),
+      return this.get('records.alarmed') === true;
+    }.property('records.alarmed'),
+
+    hasRecords: function() {
+      return this.get('records.records').length > 0;
+    }.property('records.records'),
 
     // Latest Record
 
-    // Get the latest record.
-    lastLogged: Ember.reduceComputed('records', {
-
-      initialValue: undefined,
-
-      initialize: function (array, changeMeta, instanceMeta) {
-        instanceMeta.dateValue = 0;
-        instanceMeta.dateString = '';
-      },
-
-      addedItem: function (accumulatedValue, item, changeMeta, instanceMeta) {
-        var itemLogged = item.get('loggedTime');
-        var d = new Date(itemLogged);
-        if (!accumulatedValue || d.valueOf() > instanceMeta.dateValue) {
-          instanceMeta.dateValue = d.valueOf();
-          instanceMeta.dateString = itemLogged;
+    lastLogged: function () {
+      var newest = this.get('records.records')[0], newestDate = new Date(newest.startTime), compareDate;
+      for (var n = 1; n < this.get('records.records').length; n++) {
+        compareDate = new Date(this.get('records.records')[n].startTime);
+        if (compareDate > newestDate) {
+          newestDate = compareDate;
+          newest = this.get('records.records')[n];
         }
-        return  item;
-      },
-
-      removedItem: function (accumulatedValue, item, changeMeta, instanceMeta) {
-        var itemLogged = item.get('loggedTime');
-        var d = new Date(itemLogged);
-        if (!accumulatedValue || d.valueOf() > instanceMeta.dateValue) {
-          instanceMeta.dateValue = d.valueOf();
-          instanceMeta.dateString = itemLogged;
-        }
-        return  item;
       }
+      return newest;
+    }.property('records.records'),
 
-    }),
 
     // Timestamp of last logged record.
     lastLoggedTime: function() {
-      return this.get('lastLogged.loggedTime');
+      return this.get('lastLogged.startTime');
     }.property('lastLogged'),
 
     // Response type of last logged record.
@@ -73,24 +54,23 @@
       return this.getWithDefault('lastLogged.responseType', '--');
     }.property('lastLogged'),
 
+    status: function () {
+      return (this.get('records.alarmed')) ? 'ALARMED' : 'NORMAL';
+    }.property('records.alarmed'),
+
     // Duration of last logged record.
     lastLoggedDuration: function() {
-      return this.get('lastLogged.duration');
+      return Canary.dateOffsetInMilliseconds(this.get('lastLogged.startTime'), this.get('lastLogged.endTime'));
     }.property('lastLogged'),
 
     // Cumulative Stats
-
-    // Array of durations.
-    durations: Ember.arrayComputed('records', {
-      addedItem: function(array, item, changeMeta) {
-        array.insertAt(changeMeta.index, item.get('duration'));
-        return array;
-      },
-      removedItem: function(array, item, changeMeta) {
-        array.removeAt(changeMeta.index, 1);
-        return array;
+    durations: function () {
+      var array = [];
+      for (var n = 0; n < this.get('records.records').length; n++) {
+        array.push(Canary.dateOffsetInMilliseconds(this.get('records.records')[n].startTime, this.get('records.records')[n].endTime));
       }
-    }),
+      return array;
+    }.property('records.records'),
 
     // Smallest observed duration.
     minDuration: Ember.computed.min('durations'),
@@ -98,27 +78,14 @@
     // Largest observed duration.
     maxDuration: Ember.computed.max('durations'),
 
-    // Average duration
-    average: Ember.reduceComputed('records', {
-      initialValue: 0,
-
-      initialize: function (array, changeMeta, instanceMeta) {
-        instanceMeta.total = 0;
-        instanceMeta.count = 0;
-      },
-
-      addedItem: function (accumulatedValue, item, changeMeta, instanceMeta) {
-        instanceMeta.total += parseFloat(item.get('duration'));
-        instanceMeta.count++;
-        return Math.floor(instanceMeta.total / instanceMeta.count);
-      },
-
-      removedItem: function (accumulatedValue, item, changeMeta, instanceMeta) {
-        instanceMeta.total -= parseFloat(item.get('duration'));
-        instanceMeta.count--;
-        return Math.floor(instanceMeta.total / instanceMeta.count);
+    average: function () {
+      var total = 0;
+      for (var n = 0; n < this.get('records.records').length; n++) {
+        total += Canary.dateOffsetInMilliseconds(this.get('records.records')[n].startTime, this.get('records.records')[n].endTime);
       }
-    }),
+      return Math.floor(total / this.get('records.records').length);
+    }.property('records.records'),
+
 
     // Does this record have active allerts?
     hasActiveAlerts: Ember.reduceComputed('alerts', {
@@ -153,7 +120,7 @@
       },
 
       reset: function() {
-        this.set( 'status', 'success' );
+        this.set( 'status', 'normal' );
         this.transitionToRoute('monitor', this.get('id'));
       }
 

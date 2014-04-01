@@ -51,8 +51,7 @@ module.exports = function (grunt) {
           report: 'gzip'
         },
         files: {
-          'dist/js/main.js': ['tmp/tmpl.js', 'src/js/application.js', 'src/js/config.js', 'src/js/router.js', 'src/js/controllers/*.js', 'src/js/helpers.js', 'src/js/views/*.js', 'src/js/models/*.js'],
-          'dist/js/scripts.js': ['src/js/scripts.js']
+          'dist/js/main.js': ['tmp/tmpl.js', 'src/js/application.js', 'src/js/config.js', 'src/js/store.js', 'src/js/router.js', 'src/js/controllers/*.js', 'src/js/views/*.js']
         }
       }
 
@@ -67,12 +66,12 @@ module.exports = function (grunt) {
         files: {
           'dist/js/libs.js': [
             'dist/libs/jquery/jquery.min.js',
+            'dist/libs/lodash/dist/lodash.min.js',
             'dist/libs/bootstrap/dist/js/bootstrap.min.js',
             'dist/libs/chartjs/Chart.min.js',
             'dist/libs/handlebars/handlebars.min.js'/*
 ,
-            'dist/libs/ember/ember.min.js',
-            'dist/libs/ember-data/ember-data.min.js'
+            'dist/libs/ember/ember.min.js'
 */
           ]
         }

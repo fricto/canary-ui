@@ -5,14 +5,8 @@
 
     <span {{action 'toggleCard'}} data-toggle="tooltip" data-placement="bottom" title="View Monitor Details" {{bind-attr class=":floated-icon :pull-right :glyphicon :has-tooltip isCardExpanded:glyphicon-minus isCardExpanded::glyphicon-plus"}}></span>
 
-    {{#if hasActiveAlerts}}
-      {{#link-to 'monitor' id}}
-        <span data-toggle="tooltip" data-placement="bottom" title="There are new alerts for this monitor." class="floated-icon pull-right glyphicon glyphicon-exclamation-sign has-tooltip"></span>
-      {{/link-to}}
-    {{/if}}
-
-    {{#link-to 'monitor' id}}
-      <h3 class="panel-title">{{serviceName}}</h3>
+    {{#link-to 'monitor' identifier}}
+      <h3 class="panel-title">{{name}}</h3>
     {{/link-to}}
 
   </div>
@@ -27,42 +21,56 @@
   			</div>
 			{{/if}}
 
-      {{#if hasActiveAlerts}}
-        {{#each alerts}}
-          {{#if active}}
-            {{partial "alertShort"}}
-          {{/if}}
-        {{/each}}
+      {{#if hasRecords}}
+        {{render "chart" monitor hideLabels=true}}
+      {{else}}
+        <div class="alert alert-info">
+          <p>This monitor has not generated any records yet.</p>
+        </div>
       {{/if}}
 
-      {{render "chart" monitor hideLabels=true}}
+      <p>{{description}}</p>
 
     </div>
 
     <div class="panel-footer" {{action "viewRecord" id}}>
 
       <table class="table table-condensed table-responsive">
+        {{#if hasRecords}}
+            <tr>
+              <td class="text-right text-muted">Last Logged:</td>
+              <td colspan="4">{{lastLoggedTime}}</td>
+              <td colspan="2" class="text-right text-muted">Status:</td>
+              <td>{{status}}</td>
+            </tr>
+          <tr>
+            <td colspan="2" class="text-right text-muted">Latest Dur:</td>
+            <td colspan="2">{{lastLoggedDuration}}</td>
+            <td colspan="3" class="text-right text-muted">Response Type:</td>
+            <td>{{lastResponseType}}</td>
+          </tr>
+          <tr>
+            <td class="text-right text-muted">Records:</td>
+            <td>{{records.records.length}}</td>
+            <td class="text-right text-muted">Avg. Dur:</td>
+            <td>{{average}}</td>
+            <td class="text-right text-muted">Max Dur:</td>
+            <td>{{maxDuration}}</td>
+            <td class="text-right text-muted">Min Dur:</td>
+            <td>{{minDuration}}</td>
+          </tr>
+        {{else}}
+          <tr>
+            <td colspan="8">
+              This monitor has not generated any records yet.
+            </td>
+          </tr>
+        {{/if}}
         <tr>
-          <td class="text-right text-muted">Last Logged:</td>
-          <td colspan="4">{{lastLoggedTime}}</td>
-          <td colspan="2" class="text-right text-muted">Status:</td>
-          <td>{{status}}</td>
-        </tr>
-        <tr>
-          <td class="text-right text-muted">Duration:</td>
-          <td colspan="4">{{lastLoggedDuration}}</td>
-          <td colspan="2" class="text-right text-muted">Response Type:</td>
-          <td>{{lastResponseType}}</td>
-        </tr>
-        <tr>
-          <td class="text-right text-muted">Records:</td>
-          <td>{{records.length}}</td>
-          <td class="text-right text-muted">Avg. Dur:</td>
-          <td>{{average}}</td>
-          <td class="text-right text-muted">Max Dur:</td>
-          <td>{{maxDuration}}</td>
-          <td class="text-right text-muted">Min Dur:</td>
-          <td>{{minDuration}}</td>
+          <td colspan="2" class="text-right text-muted">Poll Interval:</td>
+          <td colspan="3">{{pollInterval}} {{pollIntervalUnit}}</td>
+          <td class="text-right text-muted">Criteria:</td>
+          <td colspan="2">{{alarmThreshold}} {{alarmCriteria}}</td>
         </tr>
       </table>
 
