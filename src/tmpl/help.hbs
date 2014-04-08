@@ -1,10 +1,25 @@
 <section>
 <div class="row">
 	<div class="col-md-12">
-		<h1>Canary Help</h1>
-		<p>Lorem ipsum dolor sit amet</p>
-		<h2>CITYTECH, Inc</h2>
-		<p>Lorem ipsum dolor sit amet</p>
+		<h1>CQ Canary Framework</h1>
+		<p>
+			The Canary framework is a simple, stand alone monitoring, profiling, and reporting tool for OSGi components and services within AEM. The framework enables scheduled, custom monitoring or profiling of critical aspects of an AEM instance. Canary provides a conduit between Monitors, which collect data, and other registered service types that can distribute and execute on that data. In addition to polling and distribution, Canary provides an API for talking to services in the framework, JMX beans for reporting and maintenance, and a rich UI for representing this data.
+		</p>
+		<p>
+			The AEM Canary framework consists of registered Monitor(s) that provide responses to poll requests. These poll requests are collected and analyzed in the framework based on supplied configurations.
+		</p>
+		<h2>Monitors</h2>
+		<p>
+			Monitors are the source of data for the Canary Framework. Monitors are polled by the framework based on their specific configurations – an interval and a time unit (seconds, minutes, etc…). Monitors can poll up to once per second. Any configuration unit smaller than a single second will be rounded up to a second. If a poll exceeds the maximum execution time, it will be interrupted and a failure will be recorded indicting the interruption. Poll responses are recorded in-memory and routed to Mission Control for distribution to all Poll Response Handlers.
+		</p>
+		<p>
+			In order to detect an alarm state, poll data is analyzed each time a poll is pushed into the in-memory record storage. The configured alarm threshold and criteria are used to determine and flag an alarm state. Monitors support alarm criteria: Recent Polls, Average Execution Time, or Average Failure Rate. Note: The averaged alarm criteria are affected by the max number of records configured for the monitor.
+		</p>
+		<h2>Documentation</h2>
+		<p>For more information, visit the <a href="http://code.citytechinc.com/canary/">Maven site</a> or the <a href="https://github.com/Citytechinc/canary">Github project</a>.</p>
+		<h2>About</h2>
+		<p>This project is hosted on <a href="https://github.com/Citytechinc/canary">Github project</a> for <a href="http://www.citytechinc.com/">CITYTECH, Inc.</a></p>
+		<p>The UI was built using <a href="http://emberjs.com/">ember.js</a>, <a href="http://www.chartjs.org/">chart.js</a> and <a href="http://www.getbootstrap.com/">bootstrap</a>.</p>
 	</div>
 </div>
 </section>

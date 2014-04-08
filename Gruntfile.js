@@ -120,6 +120,9 @@ module.exports = function (grunt) {
       },
       images: {
         files: [{src: ['img/*'], dest: 'dist', expand: true}]
+      },
+      fixtures: {
+        files: [{src: ['fixtures/1.json'], dest: 'dist/1.json'}, {src: ['fixtures/2.json'], dest: 'dist/2.json'}]
       }
     },
 

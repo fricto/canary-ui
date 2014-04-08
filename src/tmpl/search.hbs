@@ -3,21 +3,21 @@
               <h1 class="page-header">Search Monitors</h1>
 
 							<table class="table table-striped table-hover">
-                <caption><h2 class="text-left">Normal Services</h2class="text-left"></caption>
+                <caption><h2 class="text-left">Search Term: '{{search}}'</h2class="text-left"></caption>
 
-                <thead><tr><th>ID</th><th>Service Name</th><th>Last Logged At</th><th>Status</th><th>Response</th></tr></thead>
+                <thead><tr><th>Identifier</th><th>Service Name</th><th>Last Logged At</th><th>Status</th><th>Response</th></tr></thead>
 
                 <tfoot>
                   <tr>
-                    <td colspan="6" class="text-right">Showing {{searchResults.length}} of {{monitors.length}} monitors.</td>
+                    <td colspan="6" class="text-right">Showing {{length}} monitors.</td>
                   </tr>
                 </tfoot>
 
                 <tbody>
-									{{#each searchResults}}
-										<tr {{action "viewRecord" id}} {{bind-attr class="isError:danger isWarning:warning isNormal:success"}}>
-											<td>{{id}}</td>
-											<td>{{serviceName}}</td>
+									{{#each}}
+										<tr {{action "viewRecord" identifier}} {{bind-attr class="isError:danger isWarning:warning isNormal:success"}}>
+											<td>{{identifier}}</td>
+											<td>{{name}}</td>
 											<td>{{lastLoggedTime}}</td>
 											<td>{{status}}</td>
 											<td>{{lastResponseType}}</td>

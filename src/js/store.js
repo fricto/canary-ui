@@ -324,12 +324,50 @@
 
 
 
+  /**
+   * The search request handler. Returns a promise that passes the requested list of items whose name inlcudes a search string into its resolution.
+   * @param {string} typeKey The typeKey for the list or record to look up.
+   * @param {string} searchString The exact string to search for.
+   * @returns {object} Promise.
+   */
+  function doSearchRequest (typeKey, searchString) {
+
+    var promise = new Ember.RSVP.Promise(function(resolve){
+
+      var resultArray = [];
+
+      function complete(payload) {
+        resolve( payload );
+      }
+
+      var all = doRequest(typeKey);
+
+      all.then(function (list) {
+        _.forEach(list, function(item) {
+          if ( item.name.indexOf(searchString) > -1 ) {
+            resultArray.push(item);
+          }
+        });
+        complete(resultArray);
+      });
+    });
+
+    return promise;
+  }
+
+
+
   /** The exposed interface. */
   Canary.store = {
 
     /** Get all members of a list of given type. */
     all: function(typeKey) {
       return doRequest(typeKey);
+    },
+
+    /** Get all members of a list of given type whose 'name' parameter includes a given search string. */
+    contains: function(typeKey, searchString) {
+      return doSearchRequest(typeKey, searchString);
     },
 
     /** Get a specific record by type and identifier. */
