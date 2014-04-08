@@ -51,7 +51,7 @@ module.exports = function (grunt) {
           report: 'gzip'
         },
         files: {
-          'dist/js/main.js': ['tmp/tmpl.js', 'src/js/application.js', 'src/js/config.js', 'src/js/store.js', 'src/js/router.js', 'src/js/controllers/*.js', 'src/js/views/*.js']
+          'dist/js/main.js': ['tmp/tmpl.js', 'src/js/application.js', 'src/js/store.js', 'src/js/router.js', 'src/js/controllers/*.js', 'src/js/views/*.js']
         }
       }
 
@@ -60,12 +60,13 @@ module.exports = function (grunt) {
     concat: {
       deps: {
         options: {
-          separator: ';',
+          separator: ';\n',
           stripBanners: {block: true, line: true}
         },
         files: {
           'dist/js/libs.js': [
             'dist/libs/jquery/jquery.min.js',
+            'dist/libs/consoleGuard/dist/consoleGuard.min.js',
             'dist/libs/lodash/dist/lodash.min.js',
             'dist/libs/bootstrap/dist/js/bootstrap.min.js',
             'dist/libs/chartjs/Chart.min.js',
