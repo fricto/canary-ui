@@ -11,6 +11,7 @@
       paths = {
 
         /** list paths */
+        /* MONITOR: 'etc/canarydashboard/jcr:content.listmonitors.json', */
         MONITOR: '1.json',
         NOTIFICATION_AGENT: 'etc/canarydashboard/jcr:content.listnotificationagents.json',
         POLL_RESPONSE_HANDLER: 'etc/canarydashboard/jcr:content.listpollresponsehandlers.json',
@@ -23,6 +24,7 @@
         statistics: 'etc/canarydashboard/jcr:content.statistics.json',
 
         /** where identifier is the identifier listed in list monitors - ?identifier=*/
+        /* records: 'etc/canarydashboard/jcr:content.records.json' */
         records: '2.json'
 
       };
