@@ -3,7 +3,7 @@
   'use strict';
 
   /** canaryData is the object that stores the dashboard data. */
-  var canaryData = {},
+  var canaryData = new Em.Object(),
       /** Valid typeKeys for data requets. */
       typeKeys = ['MONITOR', 'NOTIFICATION_AGENT', 'POLL_RESPONSE_HANDLER', 'RECORD_PERSISTENCE_SERVICE'],
 
@@ -191,7 +191,7 @@
     var requestPath,
         dataType,
         doneCount = 0,
-        doneTarget = canaryData[ typeKey ].length;
+        doneTarget = canaryData.get(typeKey+'.length');
 
     /** Set the dataType value and requestPath interface based on the typeKey. */
     if ( typeKey === 'MONITOR' ) {
@@ -205,14 +205,14 @@
     var promise = new Ember.RSVP.Promise(function(resolve) {
 
       /** For each item in the specified collection, make a call off to the appropriate request path and store the results, then call complete(). */
-      _.forEach( canaryData[ typeKey ], function (item) {
+      _.forEach( canaryData.get(typeKey), function (item) {
         $.getJSON( requestPath( typeKey, item.identifier ), function( data ) {
           setData( typeKey, item.identifier, dataType, data );
 
           doneCount++;
 
           if (doneCount === doneTarget) {
-            resolve( canaryData[ typeKey ] );
+            resolve( canaryData.get(typeKey) );
           }
 
         });
@@ -234,17 +234,17 @@
    * @returns {object} Promise
    */
   function get ( typeKey, id ) {
-    if ( typeof canaryData[ typeKey ] !== 'undefined' ) {
+    if ( typeof canaryData.get(typeKey) !== 'undefined' ) {
       if (typeof id !== 'undefined' ) {
         var item;
-        for (var n=0; n<canaryData[ typeKey ].length; n++) {
-          if ( canaryData[ typeKey ][ n ].identifier === id ) {
-            item = canaryData[ typeKey ][ n ];
+        for (var n=0; n<canaryData.get(typeKey+'.length'); n++) {
+          if ( canaryData.get(typeKey+'.'+n+'.identifier') === id ) {
+            item = canaryData.get(typeKey+'.'+n);
           }
         }
         return item;
       } else {
-        return canaryData[ typeKey ];
+        return canaryData.get(typeKey).toArray();
       }
     }
     return undefined;
@@ -259,7 +259,7 @@
    */
   function setAll (typeKey, data) {
     if ( isValidTypeKey( typeKey ) ) {
-      canaryData[ typeKey ] = data;
+      canaryData.set(typeKey, data);
     }
   }
 
@@ -274,11 +274,11 @@
    */
   function setData (typeKey, id, dataType, data) {
     if ( isValidTypeKey( typeKey ) ) {
-      for (var n=0; n<canaryData[ typeKey ].length; n++) {
-        if (canaryData[ typeKey ][ n ].identifier === id) {
-          canaryData[ typeKey ][ n ][ dataType ] = data;
+      for (var n=0; n<canaryData.get(typeKey+'.length'); n++) {
+        if (canaryData.get(typeKey+'.'+n+'.identifier') === id) {
+          canaryData.set(typeKey+'.'+n+'.'+dataType, data);
           if ( typeKey === 'MONITOR' &&  dataType === 'records' ) {
-            canaryData[ typeKey ][ n ].recordLookUpDate = new Date();
+            canaryData.set(typeKey+'.'+n+'.recordLookUpDate', new Date());
           }
         }
       }
@@ -294,7 +294,6 @@
    * @returns {object} Promise.
    */
   function doRequest(typeKey, id) {
-
     var promise = new Ember.RSVP.Promise(function(resolve){
 
       /** Handle the resolution of the promise, passing the requested data to resolution callbacks. */
@@ -310,7 +309,7 @@
         result = load( typeKey );
         result.then( function (p) { p.then(function() {complete();}); } );
       } else if ( typeKey === 'MONITOR' && ifMonitorsNeedRefreshed( result ) ) {
-        result = loadItemData( canaryData[ 'MONITOR' ], 'MONITOR' );
+        result = loadItemData( 'MONITOR' );
         result.then( function () { complete(); } );
       } else {
         complete();
