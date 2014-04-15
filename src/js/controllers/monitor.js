@@ -8,6 +8,10 @@
 
     isCardExpanded: false,
 
+    alert: function() {
+      return 'Latest record generated '+this.get('lastLoggedTime')+'. Current status: '+this.get('status')+'.';
+    }.property('records'),
+
     // Calculated Values:
 
     isError: function() {

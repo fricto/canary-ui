@@ -11,28 +11,25 @@
       paths = {
 
         /** list paths */
-        /* MONITOR: 'etc/canarydashboard/jcr:content.listmonitors.json', */
-        MONITOR: '1.json',
-        NOTIFICATION_AGENT: 'etc/canarydashboard/jcr:content.listnotificationagents.json',
-        POLL_RESPONSE_HANDLER: 'etc/canarydashboard/jcr:content.listpollresponsehandlers.json',
-        RECORD_PERSISTENCE_SERVICE: 'etc/canarydashboard/jcr:content.listrecordpersistenceservices.json',
+        MONITOR: '/etc/canarydashboard/jcr:content.listmonitors.json',
+        NOTIFICATION_AGENT: '/etc/canarydashboard/jcr:content.listnotificationagents.json',
+        POLL_RESPONSE_HANDLER: '/etc/canarydashboard/jcr:content.listpollresponsehandlers.json',
+        RECORD_PERSISTENCE_SERVICE: '/etc/canarydashboard/jcr:content.listrecordpersistenceservices.json',
 
         /**
          * where identifier is the identifier listed in a call to list notification agents, poll response handlers, or record persistence services
          * where type is NOTIFICATION_AGENT or POLL_RESPONSE_HANDLER or RECORD_PERSISTENCE_SERVICE - ?identifier=&type=
          */
-        statistics: 'etc/canarydashboard/jcr:content.statistics.json',
+        statistics: '/etc/canarydashboard/jcr:content.statistics.json',
 
         /**
          * returns boolean indicating success or failure of the reset (failure: monitor is not in alarm or identifier is invalid)
          * where identifier is the identifier listed in list monitors - ?identifier=
          */
-        /* resetAlarm: 'etc/canarydashboard/jcr:content.resetalarm.json', */
-        resetAlarm: '3.json',
+        resetAlarm: '/etc/canarydashboard/jcr:content.resetalarm.json',
 
         /** where identifier is the identifier listed in list monitors - ?identifier=*/
-        /* records: 'etc/canarydashboard/jcr:content.records.json' */
-        records: '2.json'
+        records: '/etc/canarydashboard/jcr:content.records.json'
 
       };
 
@@ -384,8 +381,7 @@
         reject('Invalid identifier.');
       } else {
 
-        //var postPromise = $.post( paths[ 'resetAlarm' ] + '?identifier=' + identifier );
-        var postPromise = $.get( paths[ 'resetAlarm' ] + '?identifier=' + identifier );
+        var postPromise = $.post( paths[ 'resetAlarm' ] + '?identifier=' + identifier );
 
         postPromise.then(function (outcome) {
           var payload = {result: outcome, identifier: identifier};

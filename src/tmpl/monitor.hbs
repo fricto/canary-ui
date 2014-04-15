@@ -2,7 +2,10 @@
 
 	<div class="row">
 		<div class="col-md-12">
-			<h1 class="page-header">{{serviceName}}</h1>
+			<h1 class="page-header">{{name}}</h1>
+		</div>
+		<div class="col-md-12 alerts">
+			<p class="alert alert-info">{{alert}}</p>
 		</div>
 	</div> <!-- /row -->
 
@@ -31,9 +34,8 @@
 					{{#if isError}}
 						<div class="alert alert-danger">
 							<p class="text-center">Monitor has paused polling due to errors.<br>
-							{{#link-to 'monitor.reset' classNames="btn btn-default btn-sm"}}reset{{/link-to}}
+							<a href="#" {{action 'resetAlarm'}} class="btn btn-default btn-sm">reset</a>
 						</div>
-{{outlet reset}}
 					{{/if}}
 
 					<h3>Status</h3>
