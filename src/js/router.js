@@ -10,7 +10,9 @@
 
     this.resource( 'search', { path: '/search/:search_term' });
 
-    this.resource('monitor', { path: '/monitor/:monitor_id' });
+    this.resource('monitor', { path: '/monitor/:monitor_id' }, function() {
+      this.route('reset');
+    });
 
     this.resource('settings');
 
@@ -45,6 +47,25 @@
     renderTemplate: function() {
       this.render('monitor', {
         outlet: 'main'
+      });
+
+    },
+    actions: {
+      refresh: function () {
+        this.refresh();
+      }
+    }
+  });
+
+  Canary.MonitorResetRoute = Ember.Route.extend({
+    model: function () {
+      var id = this.controllerFor('monitor').get('identifier');
+      //this.controllerFor('monitor').set('model', Canary.store.find('MONITOR', id));
+      return Canary.store.resetAlarm(id);
+    },
+    renderTemplate: function() {
+      this.render('monitorReset', {
+        outlet: 'reset'
       });
 
     }

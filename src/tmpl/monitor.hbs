@@ -1,4 +1,4 @@
-<section id="reports">
+<section id="record">
 
 	<div class="row">
 		<div class="col-md-12">
@@ -30,8 +30,10 @@
 
 					{{#if isError}}
 						<div class="alert alert-danger">
-							<p class="text-center">Monitor has paused polling due to errors.<br><button {{action "reset" identifier}} class="btn btn-default btn-sm">reset</button></p>
+							<p class="text-center">Monitor has paused polling due to errors.<br>
+							{{#link-to 'monitor.reset' classNames="btn btn-default btn-sm"}}reset{{/link-to}}
 						</div>
+{{outlet reset}}
 					{{/if}}
 
 					<h3>Status</h3>
@@ -96,31 +98,36 @@
 			<div class="table-responsive">
 				<h2>Records</h2>
 				{{#if hasRecords}}
-				  <table class="table table-condensed table-striped table-hover">
+				  <table class="table table-condensed table-hover record-data-table">
 						<tbody>
 						<tr>
 							<th>Start Time</th>
 							<th>End Time</th>
 							<th>Duration (ms)</th>
-							<th>Message</th>
 							<th>Excused</th>
 							<th>Response Type</th>
 						</tr>
 						{{#each records.records}}
-							<tr>
+							<tr class="record-data">
 								<td>{{startTime}}</td>
 								<td>{{endTime}}</td>
 								<td>{{duration startTime endTime}}</td>
-								<td>{{message}}
-								{{#if message}}
-									{{message}}
-								{{else}}
-								 	--
-								{{/if}}
-								</td>
 								<td>{{excused}}</td>
 								<td>{{responseType}}</td>
 							</tr>
+
+							{{#if messages}}
+								{{#each message in messages}}
+									 <tr><td colspan="5" class="record-message"><strong>Message:</strong>&nbsp;{{message}}</td></tr>
+								{{/each}}
+							{{else}}
+							<!-- no messages -->
+							{{/if}}
+
+
+
+
+
 						{{/each}}
 						</tbody>
 				  </table>

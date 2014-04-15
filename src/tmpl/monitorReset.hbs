@@ -1,6 +1,5 @@
-<div class="row">
-	<div class="col-md-12">
-		<h1>RESET!</h1>
-		{{serviceName}}
-	</div>
-</div>
+{{#if result}}
+		<p>Monitor successfully reset. <a href="#" {{action 'refresh'}}>Refresh monitor view</a>.</p>
+{{else}}
+	<p>Monitor reset failed.</p>
+{{/if}}

@@ -23,6 +23,13 @@
          */
         statistics: 'etc/canarydashboard/jcr:content.statistics.json',
 
+        /**
+         * returns boolean indicating success or failure of the reset (failure: monitor is not in alarm or identifier is invalid)
+         * where identifier is the identifier listed in list monitors - ?identifier=
+         */
+        /* resetAlarm: 'etc/canarydashboard/jcr:content.resetalarm.json', */
+        resetAlarm: '3.json',
+
         /** where identifier is the identifier listed in list monitors - ?identifier=*/
         /* records: 'etc/canarydashboard/jcr:content.records.json' */
         records: '2.json'
@@ -235,7 +242,7 @@
    */
   function get ( typeKey, id ) {
     if ( typeof canaryData.get(typeKey) !== 'undefined' ) {
-      if (typeof id !== 'undefined' ) {
+      if ( typeof id !== 'undefined' ) {
         var item;
         for (var n=0; n<canaryData.get(typeKey+'.length'); n++) {
           if ( canaryData.get(typeKey+'.'+n+'.identifier') === id ) {
@@ -294,7 +301,7 @@
    * @returns {object} Promise.
    */
   function doRequest(typeKey, id) {
-    var promise = new Ember.RSVP.Promise(function(resolve){
+    var promise = new Ember.RSVP.Promise(function(resolve, reject) {
 
       /** Handle the resolution of the promise, passing the requested data to resolution callbacks. */
       function complete() {
@@ -307,10 +314,10 @@
       /** If the requested data is already loaded, resolve. Otherwise, request it. Also, make sure records for monitors aren't too stale. */
       if ( typeof result === 'undefined' ) {
         result = load( typeKey );
-        result.then( function (p) { p.then(function() {complete();}); } );
+        result.then( function (p) { p.then(function() {complete();}); }, function (reason) { reject(reason); } );
       } else if ( typeKey === 'MONITOR' && ifMonitorsNeedRefreshed( result ) ) {
         result = loadItemData( 'MONITOR' );
-        result.then( function () { complete(); } );
+        result.then( function () { complete(); }, function (reason) { reject(reason); } );
       } else {
         complete();
       }
@@ -331,7 +338,7 @@
    */
   function doSearchRequest (typeKey, searchString) {
 
-    var promise = new Ember.RSVP.Promise(function(resolve){
+    var promise = new Ember.RSVP.Promise(function(resolve) {
 
       var resultArray = [];
 
@@ -355,6 +362,49 @@
   }
 
 
+  /**
+   * Set the monitor data to undefined to force a refresh next time it is requested.
+   */
+  function clearMonitorData () {
+    return load('MONITOR');
+  }
+
+
+
+  /**TKTKTK
+   * The search request handler. Returns a promise that passes the requested list of items whose name inlcudes a search string into its resolution.
+   * @param {string} typeKey The typeKey for the list or record to look up.
+   * @param {string} searchString The exact string to search for.
+   * @returns {object} Promise.
+   */
+  function resetAlarm (identifier) {
+    var promise = new Ember.RSVP.Promise(function(resolve, reject){
+
+      if ( typeof identifier === 'undefined' ) {
+        reject('Invalid identifier.');
+      } else {
+
+        //var postPromise = $.post( paths[ 'resetAlarm' ] + '?identifier=' + identifier );
+        var postPromise = $.get( paths[ 'resetAlarm' ] + '?identifier=' + identifier );
+
+        postPromise.then(function (outcome) {
+          var payload = {result: outcome, identifier: identifier};
+
+          /** invalidate all monitor data */
+          clearMonitorData();
+
+          resolve( payload );
+        }, function (reason) {
+          reject(reason);
+        });
+      }
+
+    });
+
+    return promise;
+  }
+
+
 
   /** The exposed interface. */
   Canary.store = {
@@ -372,6 +422,10 @@
     /** Get a specific record by type and identifier. */
     find: function(typeKey, id) {
       return doRequest(typeKey, id);
+    },
+
+    resetAlarm: function(id) {
+      return resetAlarm(id);
     }
 
   };
