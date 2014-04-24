@@ -11,7 +11,8 @@
       paths = {
 
         /** list paths */
-        MONITOR: '/etc/canarydashboard/jcr:content.listmonitors.json',
+        /* MONITOR: '/etc/canarydashboard/jcr:content.listmonitors.json', */
+        MONITOR: '1.json',
         NOTIFICATION_AGENT: '/etc/canarydashboard/jcr:content.listnotificationagents.json',
         POLL_RESPONSE_HANDLER: '/etc/canarydashboard/jcr:content.listpollresponsehandlers.json',
         RECORD_PERSISTENCE_SERVICE: '/etc/canarydashboard/jcr:content.listrecordpersistenceservices.json',
@@ -26,10 +27,12 @@
          * returns boolean indicating success or failure of the reset (failure: monitor is not in alarm or identifier is invalid)
          * where identifier is the identifier listed in list monitors - ?identifier=
          */
-        resetAlarm: '/etc/canarydashboard/jcr:content.resetalarm.json',
+        /* resetAlarm: '/etc/canarydashboard/jcr:content.resetalarm.json', */
+        resetAlarm: '3.json',
 
         /** where identifier is the identifier listed in list monitors - ?identifier=*/
-        records: '/etc/canarydashboard/jcr:content.records.json'
+        /* records: '/etc/canarydashboard/jcr:content.records.json' */
+        records: '2.json'
 
       };
 
@@ -359,14 +362,6 @@
   }
 
 
-  /**
-   * Set the monitor data to undefined to force a refresh next time it is requested.
-   */
-  function clearMonitorData () {
-    return load('MONITOR');
-  }
-
-
 
   /**TKTKTK
    * The search request handler. Returns a promise that passes the requested list of items whose name inlcudes a search string into its resolution.
@@ -381,13 +376,14 @@
         reject('Invalid identifier.');
       } else {
 
-        var postPromise = $.post( paths[ 'resetAlarm' ] + '?identifier=' + identifier );
+        /* var postPromise = $.post( paths[ 'resetAlarm' ] + '?identifier=' + identifier ); */
+        var postPromise = $.getJSON( paths[ 'resetAlarm' ] + '?identifier=' + identifier );
 
         postPromise.then(function (outcome) {
           var payload = {result: outcome, identifier: identifier};
 
-          /** invalidate all monitor data */
-          clearMonitorData();
+          /** reload all monitor data */
+          load('MONITOR');
 
           resolve( payload );
         }, function (reason) {

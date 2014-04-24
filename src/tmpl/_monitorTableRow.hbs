@@ -1,6 +1,7 @@
-<tr {{action "viewRecord" id}} {{bind-attr class="isError:danger isWarning:warning isNormal:success"}}>
-  <td>{{identifier}}</td>
-  <td>{{name}}</td>
+<tr {{action "viewRecord" identifier}} {{bind-attr class="isError:danger isWarning:warning isNormal:success"}}>
+
+  <td><!-- {{identifier}} -->{{name}}</td>
+  <td>{{description}}</td>
   {{#if hasRecords}}
     <td>{{lastLoggedTime}}</td>
     <td>{{status}}</td>
@@ -13,7 +14,7 @@
   {{/if}}
   <td>
     {{#if isError}}
-      <button class="btn btn-default btn-xs" {{action "reset" id}}>reset</button>
+      <button class="btn btn-default btn-xs" {{action "resetAlarm"}}>reset</button>
     {{/if}}
   </td>
 </tr>
